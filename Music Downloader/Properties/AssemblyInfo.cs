@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Netease Music Downloader")]
-[assembly: AssemblyDescription("Netease Music Downloader")]
+[assembly: AssemblyTitle("Music Downloader")]
+[assembly: AssemblyDescription("Music Downloader")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NiTian")]
-[assembly: AssemblyProduct("Netease Music Downloader")]
+[assembly: AssemblyProduct("Music Downloader")]
 [assembly: AssemblyCopyright("NiTian")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
