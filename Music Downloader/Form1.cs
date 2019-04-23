@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Netease_Music_Downloader
+namespace Music_Downloader
 {
     public partial class Form1 : Form
     {

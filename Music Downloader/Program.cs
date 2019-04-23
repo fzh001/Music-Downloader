@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Netease_Music_Downloader
+namespace Music_Downloader
 {
     static class Program
     {

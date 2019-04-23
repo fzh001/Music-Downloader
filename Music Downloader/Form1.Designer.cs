@@ -1,4 +1,4 @@
-﻿namespace Netease_Music_Downloader
+﻿namespace Music_Downloader
 {
     partial class Form1
     {
