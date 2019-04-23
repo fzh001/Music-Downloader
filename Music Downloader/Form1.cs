@@ -83,7 +83,6 @@ namespace Music_Downloader
             {
                 return null;
             }
-            return null;
         }
 
         /// <summary>
