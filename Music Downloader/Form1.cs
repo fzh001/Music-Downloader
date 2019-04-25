@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -22,6 +23,7 @@ namespace Music_Downloader
         SearchRoot smusiclist;
         bool onlydownloadlrc;
         int MusicAPICode;
+        ArrayList downloadindices = new ArrayList();
 
 
         public string GetMusiclistJson(string id, int musicapicode)
@@ -206,89 +208,94 @@ namespace Music_Downloader
             string songname;
             string lrcurl;
             Stream s;
+            string singer;
             int wrongdownload = 0;
-            for (int i = 0; i < musiclist.data.songs.Count; i++)
+            for (int i = 0; i < downloadindices.Count; i++)
             {
-                url = musiclist.data.songs[i].url;
+                url = musiclist.data.songs[(int)downloadindices[i]].url;
                 WebClient wb = new WebClient();
-                listView1.Items[i].SubItems[2].Text = "正在下载";
-                songname = NameCheck(musiclist.data.songs[i].name);
+                listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "正在下载";
+                songname = NameCheck(musiclist.data.songs[(int)downloadindices[i]].name);
+                singer = NameCheck(musiclist.data.songs[(int)downloadindices[i]].singer);
                 try
                 {
                     if (onlydownloadlrc == false)
                     {
-                        if (!File.Exists(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(musiclist.data.songs[i].singer) + ".mp3"))
+                        if (!File.Exists(DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".mp3"))
                         {
-                            wb.DownloadFile(url, DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(musiclist.data.songs[i].singer) + ".mp3");
+                            wb.DownloadFile(url, DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".mp3");
                         }
                     }
                     if (checkBox1.Checked == true)
                     {
-                        if (!File.Exists(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(musiclist.data.songs[i].singer) + ".lrc"))
+                        if (!File.Exists(DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".lrc"))
                         {
-                            lrcurl = musiclist.data.songs[i].lrc;
+                            lrcurl = musiclist.data.songs[(int)downloadindices[i]].lrc;
                             s = wb.OpenRead(lrcurl);
                             StreamReader sr = new StreamReader(s);
-                            File.WriteAllText(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(musiclist.data.songs[i].singer) + ".lrc", sr.ReadToEnd(), Encoding.Default);
+                            File.WriteAllText(DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".lrc", sr.ReadToEnd(), Encoding.Default);
                         }
                     }
-                    listView1.Items[i].SubItems[2].Text = "下载完成";
+                    listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "下载完成";
                 }
                 catch (Exception e)
                 {
                     //MessageBox.Show(e.Message, caption: "警告：");
-                    listView1.Items[i].SubItems[2].Text = "下载错误";
+                    listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "下载错误";
                     wrongdownload++;
                 }
-                listView1.EnsureVisible(i);
+                listView1.EnsureVisible((int)downloadindices[i]);
             }
-            MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (musiclist.data.songs.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
+            MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (downloadindices.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
         }
 
         public void sDownload()
         {
-            //WebClient wc = new WebClient();
             string url;
             string songname;
             string lrcurl;
             Stream s;
             int wrongdownload = 0;
-            for (int i = 0; i < smusiclist.data.Count; i++)
+            string singer;
+            for (int i = 0; i < downloadindices.Count; i++)
             {
-                url = smusiclist.data[i].url;
+
+                url = smusiclist.data[(int)downloadindices[i]].url;
+                singer = NameCheck(smusiclist.data[(int)downloadindices[i]].singer);
                 WebClient wb = new WebClient();
-                listView1.Items[i].SubItems[2].Text = "正在下载";
-                songname = NameCheck(smusiclist.data[i].name);
+                listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "正在下载";
+                songname = NameCheck(smusiclist.data[(int)downloadindices[i]].name);
                 try
                 {
                     if (onlydownloadlrc == false)
                     {
-                        if (!File.Exists(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(smusiclist.data[i].singer) + ".mp3"))
+                        if (!File.Exists(DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".mp3"))
                         {
-                            wb.DownloadFile(url, DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(smusiclist.data[i].singer) + ".mp3");
+                            wb.DownloadFile(url, DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".mp3");
                         }
                     }
                     if (checkBox1.Checked == true)
                     {
-                        if (!File.Exists(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(smusiclist.data[i].singer) + ".lrc"))
+                        if (!File.Exists(DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".lrc"))
                         {
-                            lrcurl = smusiclist.data[i].lrc;
+                            lrcurl = smusiclist.data[(int)downloadindices[i]].lrc;
                             s = wb.OpenRead(lrcurl);
                             StreamReader sr = new StreamReader(s);
-                            File.WriteAllText(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(smusiclist.data[i].singer) + ".lrc", sr.ReadToEnd(), Encoding.Default);
+                            File.WriteAllText(DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".lrc", sr.ReadToEnd(), Encoding.Default);
                         }
                     }
-                    listView1.Items[i].SubItems[2].Text = "下载完成";
+                    listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "下载完成";
                 }
                 catch (Exception e)
                 {
                     //MessageBox.Show(e.Message, caption: "警告：");
-                    listView1.Items[i].SubItems[2].Text = "下载错误";
+                    listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "下载错误";
                     wrongdownload++;
                 }
-                listView1.EnsureVisible(i);
+                listView1.EnsureVisible((int)downloadindices[i]);
             }
-            MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (smusiclist.data.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
+            MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (downloadindices.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -441,6 +448,11 @@ namespace Music_Downloader
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             onlydownloadlrc = false;
+            downloadindices.Clear();
+            for (int i = 0; i < listView1.Items.Count; i++)
+            {
+                downloadindices.Add(i);
+            }
             if (listView1.Items.Count == 0)
             {
                 MessageBox.Show("未获取歌曲", caption: "警告：");
@@ -460,68 +472,26 @@ namespace Music_Downloader
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            if (musiclist != null)
-            {
-                onlydownloadlrc = false;
-                int i = listView1.SelectedItems[0].Index;
-                string url = musiclist.data.songs[i].url;
-                string songname;
-                string lrcurl;
-                Stream s;
-                WebClient wb = new WebClient();
-                songname = NameCheck(musiclist.data.songs[i].name);
-                listView1.Items[i].SubItems[2].Text = "正在下载";
-                try
-                {
-                    wb.DownloadFile(url, DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(musiclist.data.songs[i].singer) + ".mp3");
-                    if (checkBox1.Checked == true)
-                    {
-                        lrcurl = musiclist.data.songs[i].lrc;
-                        s = wb.OpenRead(lrcurl);
-                        StreamReader sr = new StreamReader(s);
-                        File.WriteAllText(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(musiclist.data.songs[i].singer) + ".lrc", sr.ReadToEnd(), Encoding.Default);
-                    }
-                    listView1.Items[i].SubItems[2].Text = "下载完成";
-                }
-                catch (Exception a)
-                {
-                    //MessageBox.Show(a.Message, caption: "警告：");
-                    listView1.Items[i].SubItems[2].Text = "下载错误";
-                }
-            }
+            downloadindices = GetListViewSelectedIndices();
             if (smusiclist != null)
             {
-                onlydownloadlrc = false;
-                int i = listView1.SelectedItems[0].Index;
-                string url = smusiclist.data[i].url;
-                string songname;
-                string lrcurl;
-                Stream s;
-                WebClient wb = new WebClient();
-                songname = NameCheck(smusiclist.data[i].name);
-                listView1.Items[i].SubItems[2].Text = "正在下载";
-                try
-                {
-                    wb.DownloadFile(url, DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(smusiclist.data[i].singer) + ".mp3");
-                    if (checkBox1.Checked == true)
-                    {
-                        lrcurl = smusiclist.data[i].lrc;
-                        s = wb.OpenRead(lrcurl);
-                        StreamReader sr = new StreamReader(s);
-                        File.WriteAllText(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(smusiclist.data[i].singer) + ".lrc", sr.ReadToEnd(), Encoding.Default);
-                    }
-                    listView1.Items[i].SubItems[2].Text = "下载完成";
-                }
-                catch (Exception a)
-                {
-                    //MessageBox.Show(a.Message + "\r\n" + GetRealUrl(url), caption: "警告：");
-                    listView1.Items[i].SubItems[2].Text = "下载错误";
-                }
+                Thread a = new Thread(sDownload);
+                a.Start();
+            }
+            if (musiclist != null)
+            {
+                Thread a = new Thread(Download);
+                a.Start();
             }
         }
 
         private void 下载所有歌词ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            downloadindices.Clear();
+            for (int i = 0; i < listView1.Items.Count; i++)
+            {
+                downloadindices.Add(i);
+            }
             if (musiclist != null)
             {
                 if (listView1.Items.Count == 0)
@@ -550,64 +520,18 @@ namespace Music_Downloader
 
         private void 下载选中歌词ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (musiclist != null)
-            {
-                checkBox1.Checked = true;
-                int i = listView1.SelectedItems[0].Index;
-                string url = musiclist.data.songs[i].url;
-                string songname;
-                string lrcurl;
-                Stream s;
-                WebClient wb = new WebClient();
-                songname = NameCheck(musiclist.data.songs[i].name);
-                listView1.Items[i].SubItems[2].Text = "正在下载";
-                try
-                {
-                    //wb.DownloadFile(url, DownloadPathtextBox.Text + "\\" + songname + ".mp3");
-                    if (checkBox1.Checked == true)
-                    {
-                        lrcurl = musiclist.data.songs[i].lrc;
-                        s = wb.OpenRead(lrcurl);
-                        StreamReader sr = new StreamReader(s);
-                        File.WriteAllText(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(musiclist.data.songs[i].singer) + ".lrc", sr.ReadToEnd(), Encoding.Default);
-                    }
-                    listView1.Items[i].SubItems[2].Text = "下载完成";
-                }
-                catch (Exception a)
-                {
-                    //MessageBox.Show(a.Message, caption: "警告：");
-                    listView1.Items[i].SubItems[2].Text = "下载错误";
-                }
-            }
+            onlydownloadlrc = true;
+            checkBox1.Checked = true;
+            downloadindices = GetListViewSelectedIndices();
             if (smusiclist != null)
             {
-                checkBox1.Checked = true;
-                int i = listView1.SelectedItems[0].Index;
-                string url = smusiclist.data[i].url;
-                string songname;
-                string lrcurl;
-                Stream s;
-                WebClient wb = new WebClient();
-                songname = NameCheck(smusiclist.data[i].name);
-                listView1.Items[i].SubItems[2].Text = "正在下载";
-                try
-                {
-                    //wb.DownloadFile(url, DownloadPathtextBox.Text + "\\" + songname + ".mp3");
-                    if (checkBox1.Checked == true)
-                    {
-                        lrcurl = smusiclist.data[i].lrc;
-                        s = wb.OpenRead(lrcurl);
-                        StreamReader sr = new StreamReader(s);
-                        File.WriteAllText(DownloadPathtextBox.Text + "\\" + songname + " - " + NameCheck(smusiclist.data[i].singer) + ".lrc", sr.ReadToEnd(), Encoding.Default);
-                    }
-                    listView1.Items[i].SubItems[2].Text = "下载完成";
-                }
-                catch (Exception a)
-                {
-                    //MessageBox.Show(a.Message, caption: "警告：");
-                    listView1.Items[i].SubItems[2].Text = "下载错误";
-                }
-
+                Thread a = new Thread(sDownload);
+                a.Start();
+            }
+            if (musiclist != null)
+            {
+                Thread a = new Thread(Download);
+                a.Start();
             }
         }
 
@@ -689,5 +613,19 @@ namespace Music_Downloader
             }
         }
 
+        public ArrayList GetListViewSelectedIndices()
+        {
+            ArrayList a = new ArrayList();
+            string mes = null;
+            for (int i = 0; i < listView1.SelectedIndices.Count; i++)
+            {
+                a.Add(listView1.SelectedIndices[i]);
+            }
+            foreach (int i in a)
+            {
+                mes += i.ToString();
+            }
+            return a;
+        }
     }
 }

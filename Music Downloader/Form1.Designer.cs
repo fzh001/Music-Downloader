@@ -93,7 +93,6 @@
             this.columnHeader2});
             this.listView1.FullRowSelect = true;
             resources.ApplyResources(this.listView1, "listView1");
-            this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
