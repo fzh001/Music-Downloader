@@ -54,6 +54,10 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.Musicnumlabel = new System.Windows.Forms.Label();
+            this.停止下载ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -147,8 +151,11 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.toolStripMenuItem2,
+            this.toolStripSeparator1,
             this.下载所有歌词ToolStripMenuItem,
-            this.下载选中歌词ToolStripMenuItem});
+            this.下载选中歌词ToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.停止下载ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             // 
@@ -207,10 +214,35 @@
             resources.ApplyResources(this.Musicnumlabel, "Musicnumlabel");
             this.Musicnumlabel.Name = "Musicnumlabel";
             // 
+            // 停止下载ToolStripMenuItem
+            // 
+            this.停止下载ToolStripMenuItem.Name = "停止下载ToolStripMenuItem";
+            resources.ApplyResources(this.停止下载ToolStripMenuItem, "停止下载ToolStripMenuItem");
+            this.停止下载ToolStripMenuItem.Click += new System.EventHandler(this.停止下载ToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // linkLabel1
+            // 
+            resources.ApplyResources(this.linkLabel1, "linkLabel1");
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
+            // 
             // Form1
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.SearchtextBox);
             this.Controls.Add(this.Musicnumlabel);
             this.Controls.Add(this.radioButton3);
@@ -263,6 +295,10 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.Label Musicnumlabel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem 停止下载ToolStripMenuItem;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -24,6 +25,7 @@ namespace Music_Downloader
         bool onlydownloadlrc;
         int MusicAPICode;
         ArrayList downloadindices = new ArrayList();
+        Thread a;
 
 
         public string GetMusiclistJson(string id, int musicapicode)
@@ -295,7 +297,7 @@ namespace Music_Downloader
                 listView1.EnsureVisible((int)downloadindices[i]);
             }
             MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (downloadindices.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -460,12 +462,12 @@ namespace Music_Downloader
             }
             if (smusiclist != null)
             {
-                Thread a = new Thread(sDownload);
+                a = new Thread(sDownload);
                 a.Start();
             }
             if (musiclist != null)
             {
-                Thread a = new Thread(Download);
+                a = new Thread(Download);
                 a.Start();
             }
         }
@@ -475,12 +477,12 @@ namespace Music_Downloader
             downloadindices = GetListViewSelectedIndices();
             if (smusiclist != null)
             {
-                Thread a = new Thread(sDownload);
+                a = new Thread(sDownload);
                 a.Start();
             }
             if (musiclist != null)
             {
-                Thread a = new Thread(Download);
+                a = new Thread(Download);
                 a.Start();
             }
         }
@@ -501,7 +503,7 @@ namespace Music_Downloader
                 }
                 onlydownloadlrc = true;
                 checkBox1.Checked = true;
-                Thread a = new Thread(Download);
+                a = new Thread(Download);
                 a.Start();
             }
             if (smusiclist != null)
@@ -513,7 +515,7 @@ namespace Music_Downloader
                 }
                 onlydownloadlrc = true;
                 checkBox1.Checked = true;
-                Thread a = new Thread(sDownload);
+                a = new Thread(sDownload);
                 a.Start();
             }
         }
@@ -525,12 +527,12 @@ namespace Music_Downloader
             downloadindices = GetListViewSelectedIndices();
             if (smusiclist != null)
             {
-                Thread a = new Thread(sDownload);
+                a = new Thread(sDownload);
                 a.Start();
             }
             if (musiclist != null)
             {
-                Thread a = new Thread(Download);
+                a = new Thread(Download);
                 a.Start();
             }
         }
@@ -608,7 +610,7 @@ namespace Music_Downloader
             {
                 if (MessageBox.Show("检测到新版本，是否打开更新页面？", caption: "提示：", buttons: MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", "https://www.52pojie.cn/thread-929956-1-1.html");
+                    Process.Start("explorer.exe", "https://www.52pojie.cn/thread-929956-1-1.html");
                 }
             }
         }
@@ -626,6 +628,16 @@ namespace Music_Downloader
                 mes += i.ToString();
             }
             return a;
+        }
+
+        private void 停止下载ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            a.Abort();
+        }
+
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("explorer.exe",DownloadPathtextBox.Text);
         }
     }
 }
