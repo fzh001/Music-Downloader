@@ -47,16 +47,16 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.下载所有歌词ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.下载选中歌词ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.停止下载ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.Musicnumlabel = new System.Windows.Forms.Label();
-            this.停止下载ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -171,6 +171,11 @@
             resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
             // 下载所有歌词ToolStripMenuItem
             // 
             this.下载所有歌词ToolStripMenuItem.Name = "下载所有歌词ToolStripMenuItem";
@@ -182,6 +187,17 @@
             this.下载选中歌词ToolStripMenuItem.Name = "下载选中歌词ToolStripMenuItem";
             resources.ApplyResources(this.下载选中歌词ToolStripMenuItem, "下载选中歌词ToolStripMenuItem");
             this.下载选中歌词ToolStripMenuItem.Click += new System.EventHandler(this.下载选中歌词ToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // 停止下载ToolStripMenuItem
+            // 
+            this.停止下载ToolStripMenuItem.Name = "停止下载ToolStripMenuItem";
+            resources.ApplyResources(this.停止下载ToolStripMenuItem, "停止下载ToolStripMenuItem");
+            this.停止下载ToolStripMenuItem.Click += new System.EventHandler(this.停止下载ToolStripMenuItem_Click);
             // 
             // checkBox1
             // 
@@ -213,22 +229,6 @@
             // 
             resources.ApplyResources(this.Musicnumlabel, "Musicnumlabel");
             this.Musicnumlabel.Name = "Musicnumlabel";
-            // 
-            // 停止下载ToolStripMenuItem
-            // 
-            this.停止下载ToolStripMenuItem.Name = "停止下载ToolStripMenuItem";
-            resources.ApplyResources(this.停止下载ToolStripMenuItem, "停止下载ToolStripMenuItem");
-            this.停止下载ToolStripMenuItem.Click += new System.EventHandler(this.停止下载ToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             // 
             // linkLabel1
             // 

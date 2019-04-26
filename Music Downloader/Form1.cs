@@ -60,7 +60,7 @@ namespace Music_Downloader
             }
             if (musicapicode == 3)
             {
-                if (IDtextBox.Text.IndexOf("http://url.cn/") != -1)
+                if (IDtextBox.Text.IndexOf("http://url.cn/") != -1 || IDtextBox.Text.IndexOf("https://") != -1)
                 {
                     string qqid = GetRealUrl(IDtextBox.Text);
                     url = "https://api.itooi.cn/music/tencent/songList?key=579621905&id=" + qqid.Substring(qqid.IndexOf("id=") + 3);
@@ -297,7 +297,6 @@ namespace Music_Downloader
                 listView1.EnsureVisible((int)downloadindices[i]);
             }
             MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (downloadindices.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
-
         }
 
         private void button2_Click(object sender, EventArgs e)
