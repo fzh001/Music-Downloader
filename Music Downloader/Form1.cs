@@ -161,7 +161,7 @@ namespace Music_Downloader
             public Data data { get; set; }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void GetMusicListThread()
         {
             if (IDtextBox.Text == null || IDtextBox.Text == "")
             {
@@ -190,16 +190,23 @@ namespace Music_Downloader
             Musicnumlabel.Text = "歌曲总数：" + listView1.Items.Count;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            a = new Thread(GetMusicListThread);
+            a.Start();
+        }
+
         public string NameCheck(string name)
         {
-            string re = name.Replace("*", "");
-            re = re.Replace("\\", "");
-            re = re.Replace("\"", "");
-            re = re.Replace("<", "");
-            re = re.Replace(">", "");
-            re = re.Replace("|", "");
-            re = re.Replace("?", "");
+            string re = name.Replace("*", " ");
+            re = re.Replace("\\", " ");
+            re = re.Replace("\"", " ");
+            re = re.Replace("<", " ");
+            re = re.Replace(">", " ");
+            re = re.Replace("|", " ");
+            re = re.Replace("?", " ");
             re = re.Replace("/", ",");
+            re = re.Replace(":", " ");
             return re;
         }
 
@@ -240,7 +247,7 @@ namespace Music_Downloader
                     }
                     listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "下载完成";
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //MessageBox.Show(e.Message, caption: "警告：");
                     listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "下载错误";
@@ -248,7 +255,10 @@ namespace Music_Downloader
                 }
                 listView1.EnsureVisible((int)downloadindices[i]);
             }
-            MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (downloadindices.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
+            if (downloadindices.Count > 1)
+            {
+                MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (downloadindices.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
+            }
         }
 
         public void sDownload()
@@ -288,7 +298,7 @@ namespace Music_Downloader
                     }
                     listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "下载完成";
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //MessageBox.Show(e.Message, caption: "警告：");
                     listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "下载错误";
@@ -296,7 +306,10 @@ namespace Music_Downloader
                 }
                 listView1.EnsureVisible((int)downloadindices[i]);
             }
-            MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (downloadindices.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
+            if (downloadindices.Count > 1)
+            {
+                MessageBox.Show("下载完成" + "\r\n" + "下载成功:" + (downloadindices.Count - wrongdownload).ToString() + "\r\n" + "下载失败:" + wrongdownload.ToString(), caption: "提示：");
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -329,7 +342,7 @@ namespace Music_Downloader
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Thread a = new Thread(Update);
+            Thread a = new Thread(update);
             a.Start();
             if (File.Exists(Environment.CurrentDirectory + "\\Newtonsoft.Json.dll") != true)
             {
@@ -414,7 +427,7 @@ namespace Music_Downloader
             return 0;
         }
 
-        private void Searchbutton_Click(object sender, EventArgs e)
+        public void SearchThread()
         {
             if (SearchtextBox.Text == null || SearchtextBox.Text == "")
             {
@@ -436,6 +449,12 @@ namespace Music_Downloader
                 listView1.Items[i].SubItems.Add("未下载");
             }
             Musicnumlabel.Text = "歌曲总数：" + listView1.Items.Count;
+        }
+
+        private void Searchbutton_Click(object sender, EventArgs e)
+        {
+            a = new Thread(SearchThread);
+            a.Start();
         }
 
         private void listView1_MouseDown(object sender, MouseEventArgs e)
@@ -598,7 +617,7 @@ namespace Music_Downloader
             File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\Netease Music Downloader\\SavePath.ini", DownloadPathtextBox.Text);
         }
 
-        public void Update()
+        public void update()
         {
             string ver = this.Text.Substring(this.Text.Length - 5);
             WebClient wb = new WebClient();
@@ -636,7 +655,7 @@ namespace Music_Downloader
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("explorer.exe",DownloadPathtextBox.Text);
+            Process.Start("explorer.exe", DownloadPathtextBox.Text);
         }
     }
 }
