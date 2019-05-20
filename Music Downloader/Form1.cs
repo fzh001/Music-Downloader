@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Music_Downloader
 {
-    public partial class Form1 : Form
+    public partial class Form1 : MetroFramework.Forms.MetroForm
     {
         public Form1()
         {
@@ -20,7 +20,7 @@ namespace Music_Downloader
         }
 
         //全局变量
-        MusiclistRoot musiclist;
+        Music_Downloader.Root1 musiclist;
         SearchRoot smusiclist;
         bool onlydownloadlrc;
         int MusicAPICode;
@@ -42,38 +42,38 @@ namespace Music_Downloader
                 {
                     if (id.IndexOf("&userid") != -1)
                     {
-                        url = "https://api.itooi.cn/music/netease/songList?key=579621905&id=" + GetMidText(id, left, "&userid") + "&limit=500&offset=0";
+                        url = "https://v1.itooi.cn/netease/songList?id=" + GetMidText(id, left, "&userid") + "&format=1";
                     }
                     else
                     {
-                        url = "https://api.itooi.cn/music/netease/songList?key=579621905&id=" + id.Substring(id.IndexOf(left) + left.Length) + "&limit=500&offset=0";
+                        url = "https://v1.itooi.cn/netease/songList?id=" + id.Substring(id.IndexOf(left) + left.Length) + "&format=1";
                     }
                 }
                 else
                 {
-                    url = "https://api.itooi.cn/music/netease/songList?key=579621905&id=" + id + "&limit=500&offset=0";
+                    url = "https://v1.itooi.cn/netease/songList?id=" + id + "&format=1";
                 }
             }
             if (musicapicode == 2)
             {
-                url = "https://api.itooi.cn/music/kugou/songList?key=579621905&id=" + IDtextBox.Text;
+                url = "https://v1.itooi.cn/kugou/songList?id=" + IDtextBox.Text;
             }
             if (musicapicode == 3)
             {
                 if (IDtextBox.Text.IndexOf("http://url.cn/") != -1 || IDtextBox.Text.IndexOf("https://") != -1)
                 {
                     string qqid = GetRealUrl(IDtextBox.Text);
-                    url = "https://api.itooi.cn/music/tencent/songList?key=579621905&id=" + qqid.Substring(qqid.IndexOf("id=") + 3);
+                    url = "https://v1.itooi.cn/tencent/songList?id=" + qqid.Substring(qqid.IndexOf("id=") + 3);
                 }
                 else
                 {
                     if (IDtextBox.Text.IndexOf("/playlist/") != -1)
                     {
-                        url = "https://api.itooi.cn/music/tencent/songList?key=579621905&id=" + GetMidText(IDtextBox.Text, "/playlist/", ".html");
+                        url = "https://v1.itooi.cn/tencent/songList?id=" + GetMidText(IDtextBox.Text, "/playlist/", ".html");
                     }
                     else
                     {
-                        url = "https://api.itooi.cn/music/tencent/songList?key=579621905&id=" + IDtextBox.Text;
+                        url = "https://v1.itooi.cn/tencent/songList?id=" + IDtextBox.Text;
                     }
                 }
             }
@@ -112,12 +112,12 @@ namespace Music_Downloader
 
         public void ParsingJson(string url)
         {
-            MusiclistRoot re = JsonConvert.DeserializeObject<MusiclistRoot>(url);
+            Music_Downloader.Root1 re = JsonConvert.DeserializeObject<Music_Downloader.Root1>(url);
             musiclist = re;
-            for (int i = 0; i < re.data.songs.Count; i++)
+            for (int i = 0; i < re.data.Count; i++)
             {
-                listView1.Items.Add(re.data.songs[i].name);
-                listView1.Items[i].SubItems.Add(musiclist.data.songs[i].singer);
+                listView1.Items.Add(re.data[i].name);
+                listView1.Items[i].SubItems.Add(musiclist.data[i].singer);
                 listView1.Items[i].SubItems.Add("未下载");
             }
         }
@@ -206,14 +206,14 @@ namespace Music_Downloader
             re = re.Replace("|", " ");
             re = re.Replace("?", " ");
             re = re.Replace("/", ",");
-            re = re.Replace(":", " ");
+            re = re.Replace(":", "：");
             return re;
         }
 
         public void Download()
         {
             WebClient wc = new WebClient();
-            string url;
+            string url="";
             string songname;
             string lrcurl;
             Stream s;
@@ -221,11 +221,23 @@ namespace Music_Downloader
             int wrongdownload = 0;
             for (int i = 0; i < downloadindices.Count; i++)
             {
-                url = musiclist.data.songs[(int)downloadindices[i]].url;
+                if (GetApiCode() == 1)
+                {
+                    url = "https://v1.itooi.cn/netease/url?id=" + musiclist.data[(int)downloadindices[i]].id + "&quality=320";
+                }
+                if (GetApiCode() == 2)
+                {
+                    url = "https://v1.itooi.cn/kugou/url?id=" + musiclist.data[(int)downloadindices[i]].id + "&quality=320";
+                }
+                if (GetApiCode() == 3)
+                {
+                    url = "https://v1.itooi.cn/tencent/url?id=" + musiclist.data[(int)downloadindices[i]].id + "&quality=320";
+                }
+                //url = "https://v1.itooi.cn/tencent/url?id="+musiclist.data[(int)downloadindices[i]].id + "&quality=320";
                 WebClient wb = new WebClient();
                 listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "正在下载";
-                songname = NameCheck(musiclist.data.songs[(int)downloadindices[i]].name);
-                singer = NameCheck(musiclist.data.songs[(int)downloadindices[i]].singer);
+                songname = NameCheck(musiclist.data[(int)downloadindices[i]].name);
+                singer = NameCheck(musiclist.data[(int)downloadindices[i]].singer);
                 try
                 {
                     if (onlydownloadlrc == false)
@@ -239,7 +251,7 @@ namespace Music_Downloader
                     {
                         if (!File.Exists(DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".lrc"))
                         {
-                            lrcurl = musiclist.data.songs[(int)downloadindices[i]].lrc;
+                            lrcurl = musiclist.data[(int)downloadindices[i]].lrc;
                             s = wb.OpenRead(lrcurl);
                             StreamReader sr = new StreamReader(s);
                             File.WriteAllText(DownloadPathtextBox.Text + "\\" + songname + " - " + singer + ".lrc", sr.ReadToEnd(), Encoding.Default);
@@ -263,7 +275,7 @@ namespace Music_Downloader
 
         public void sDownload()
         {
-            string url;
+            string url="";
             string songname;
             string lrcurl;
             Stream s;
@@ -271,8 +283,19 @@ namespace Music_Downloader
             string singer;
             for (int i = 0; i < downloadindices.Count; i++)
             {
-
-                url = smusiclist.data[(int)downloadindices[i]].url;
+                if (GetApiCode() == 1)
+                {
+                    url = "https://v1.itooi.cn/netease/url?id=" + smusiclist.data[(int)downloadindices[i]].id + "&quality=320";
+                }
+                if (GetApiCode() == 2)
+                {
+                    url = "https://v1.itooi.cn/kugou/url?id=" + smusiclist.data[(int)downloadindices[i]].id + "&quality=320";
+                }
+                if (GetApiCode() == 3)
+                {
+                    url = "https://v1.itooi.cn/tencent/url?id=" + smusiclist.data[(int)downloadindices[i]].id + "&quality=320";
+                }
+                //url = smusiclist.data[(int)downloadindices[i]].url;
                 singer = NameCheck(smusiclist.data[(int)downloadindices[i]].singer);
                 WebClient wb = new WebClient();
                 listView1.Items[(int)downloadindices[i]].SubItems[2].Text = "正在下载";
@@ -386,15 +409,19 @@ namespace Music_Downloader
             string url = null;
             if (api == 1)
             {
-                url = "https://api.itooi.cn/music/netease/search?key=579621905&s=" + key; //网易云音乐接口
+                url = "https://v1.itooi.cn/netease/search?keyword=" + key+ "&type=song&pageSize=100&page=0&format=1"; //网易云音乐接口
             }
-            if (api == 2)
+            if (api == 2)   
             {
-                url = "https://api.itooi.cn/music/kugou/search?key=579621905&s=" + key;  //酷狗音乐接口
+                url = "https://v1.itooi.cn/kugou/search?keyword=" + key + "&type=song&pageSize=100&page=0&format=1";  //酷狗音乐接口
             }
             if (api == 3)
             {
-                url = "https://api.itooi.cn/music/tencent/search?key=579621905&s=" + key; //QQ音乐接口
+                url = "https://v1.itooi.cn/tencent/search?keyword=" + key + "&type=song&pageSize=100&page=0&format=1"; //QQ音乐接口
+            }
+            if (api == 4)
+            {
+                url = "https://v1.itooi.cn/kuwo/search?keyword=" + key + "&type=song&pageSize=100&page=0&format=1"; //酷我音乐接口
             }
             try
             {
@@ -424,6 +451,10 @@ namespace Music_Downloader
             {
                 return 3;
             }
+            if (radioButton4.Checked)
+            {
+                return 4;
+            }
             return 0;
         }
 
@@ -432,6 +463,7 @@ namespace Music_Downloader
             if (SearchtextBox.Text == null || SearchtextBox.Text == "")
             {
                 MessageBox.Show("搜索内容不能为空", caption: "警告：");
+                return;
             }
             listView1.Items.Clear();
             musiclist = null;
@@ -492,6 +524,7 @@ namespace Music_Downloader
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
+            onlydownloadlrc = false;
             downloadindices = GetListViewSelectedIndices();
             if (smusiclist != null)
             {
@@ -507,6 +540,7 @@ namespace Music_Downloader
 
         private void 下载所有歌词ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            onlydownloadlrc = true;
             downloadindices.Clear();
             for (int i = 0; i < listView1.Items.Count; i++)
             {
@@ -574,11 +608,11 @@ namespace Music_Downloader
             /// </summary>
             public string pic { get; set; }
             /// <summary>
-            /// https://api.itooi.cn/music/netease/lrc?id=569200213&key=579621905
+            /// https://v1.itooi.cn/netease/lrc?id=569200213&
             /// </summary>
             public string lrc { get; set; }
             /// <summary>
-            /// https://api.itooi.cn/music/netease/url?id=569200213&key=579621905
+            /// https://v1.itooi.cn/netease/url?id=569200213&
             /// </summary>
             public string url { get; set; }
             /// <summary>
@@ -619,7 +653,7 @@ namespace Music_Downloader
 
         public void update()
         {
-            string ver = this.Text.Substring(this.Text.Length - 5);
+            string ver = "1.2.6";
             WebClient wb = new WebClient();
             Stream webdata = wb.OpenRead("http://96.45.180.29/Update/NeteaseMusicDownloader.txt");
             StreamReader sr = new StreamReader(webdata);
@@ -656,6 +690,21 @@ namespace Music_Downloader
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("explorer.exe", DownloadPathtextBox.Text);
+        }
+
+        private void PictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
