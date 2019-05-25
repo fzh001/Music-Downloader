@@ -3,11 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using WMPLib;
 
 namespace Music_Downloader
 {
@@ -26,6 +28,8 @@ namespace Music_Downloader
         int MusicAPICode;
         ArrayList downloadindices = new ArrayList();
         Thread a;
+        List<PlayList> pl = new List<PlayList>();
+        string playmode = "shunxu";
 
 
         public string GetMusiclistJson(string id, int musicapicode)
@@ -192,6 +196,7 @@ namespace Music_Downloader
 
         private void button1_Click(object sender, EventArgs e)
         {
+            skinTabControl1.SelectedIndex = 0;
             a = new Thread(GetMusicListThread);
             a.Start();
         }
@@ -213,7 +218,7 @@ namespace Music_Downloader
         public void Download()
         {
             WebClient wc = new WebClient();
-            string url="";
+            string url = "";
             string songname;
             string lrcurl;
             Stream s;
@@ -275,7 +280,7 @@ namespace Music_Downloader
 
         public void sDownload()
         {
-            string url="";
+            string url = "";
             string songname;
             string lrcurl;
             Stream s;
@@ -294,6 +299,10 @@ namespace Music_Downloader
                 if (GetApiCode() == 3)
                 {
                     url = "https://v1.itooi.cn/tencent/url?id=" + smusiclist.data[(int)downloadindices[i]].id + "&quality=320";
+                }
+                if (GetApiCode() == 4)
+                {
+                    url = "https://v1.itooi.cn/kuwo/url?id=" + smusiclist.data[(int)downloadindices[i]].id + "&quality=320";
                 }
                 //url = smusiclist.data[(int)downloadindices[i]].url;
                 singer = NameCheck(smusiclist.data[(int)downloadindices[i]].singer);
@@ -367,18 +376,31 @@ namespace Music_Downloader
         {
             Thread a = new Thread(update);
             a.Start();
-            if (File.Exists(Environment.CurrentDirectory + "\\Newtonsoft.Json.dll") != true)
+            skinTabControl1.ItemSize = new Size(0, 1);
+            axWindowsMediaPlayer1.settings.volume = 50;
+            string settingpath = Environment.CurrentDirectory + "\\Setting.json";
+            if (File.Exists(settingpath))
             {
-                File.WriteAllBytes(Environment.CurrentDirectory + "\\Newtonsoft.Json.dll", Properties.Resources.Newtonsoft_Json);
-                Application.Restart();
-            }
-            if (File.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\Netease Music Downloader\\SavePath.ini") == true)
-            {
-                DownloadPathtextBox.Text = File.ReadAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\Netease Music Downloader\\SavePath.ini");
+                StreamReader sr = new StreamReader(settingpath);
+                Setting s = JsonConvert.DeserializeObject<Music_Downloader.Setting>(sr.ReadToEnd());
+                pl = s.PlayList;
+                sr.Close();
+                DownloadPathtextBox.Text = s.SavePath;
+                IWMPPlaylist l = axWindowsMediaPlayer1.currentPlaylist;
+                for (int i = 0; i < s.PlayList.Count; i++)
+                {
+
+                    IWMPMedia media = axWindowsMediaPlayer1.newMedia(s.PlayList[i].Url);
+                    l.appendItem(media);
+                    listView2.Items.Add(s.PlayList[i].SongName);
+                    listView2.Items[i].SubItems.Add(s.PlayList[i].SingerName);
+                }
+                axWindowsMediaPlayer1.currentPlaylist = l;
+                axWindowsMediaPlayer1.Ctlcontrols.stop();
             }
             else
             {
-                DownloadPathtextBox.Text = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyMusic);
+                DownloadPathtextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             }
         }
 
@@ -409,9 +431,9 @@ namespace Music_Downloader
             string url = null;
             if (api == 1)
             {
-                url = "https://v1.itooi.cn/netease/search?keyword=" + key+ "&type=song&pageSize=100&page=0&format=1"; //网易云音乐接口
+                url = "https://v1.itooi.cn/netease/search?keyword=" + key + "&type=song&pageSize=100&page=0&format=1"; //网易云音乐接口
             }
-            if (api == 2)   
+            if (api == 2)
             {
                 url = "https://v1.itooi.cn/kugou/search?keyword=" + key + "&type=song&pageSize=100&page=0&format=1";  //酷狗音乐接口
             }
@@ -485,16 +507,9 @@ namespace Music_Downloader
 
         private void Searchbutton_Click(object sender, EventArgs e)
         {
+            skinTabControl1.SelectedIndex = 0;
             a = new Thread(SearchThread);
             a.Start();
-        }
-
-        private void listView1_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
-            }
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -554,7 +569,7 @@ namespace Music_Downloader
                     return;
                 }
                 onlydownloadlrc = true;
-                checkBox1.Checked = true;
+                //checkBox1.Checked = true;
                 a = new Thread(Download);
                 a.Start();
             }
@@ -575,7 +590,7 @@ namespace Music_Downloader
         private void 下载选中歌词ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             onlydownloadlrc = true;
-            checkBox1.Checked = true;
+            //checkBox1.Checked = true;
             downloadindices = GetListViewSelectedIndices();
             if (smusiclist != null)
             {
@@ -644,16 +659,19 @@ namespace Music_Downloader
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Directory.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\Netease Music Downloader") == false)
-            {
-                Directory.CreateDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\Netease Music Downloader");
-            }
-            File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\Netease Music Downloader\\SavePath.ini", DownloadPathtextBox.Text);
+            Setting s = new Setting();
+            s.SavePath = DownloadPathtextBox.Text;
+            s.PlayList = pl;
+            string json = JsonConvert.SerializeObject(s);
+            StreamWriter sw = new StreamWriter(Environment.CurrentDirectory + "\\Setting.json");
+            sw.Write(json);
+            sw.Flush();
+            sw.Close();
         }
 
         public void update()
         {
-            string ver = "1.2.6";
+            string ver = "1.2.5";
             WebClient wb = new WebClient();
             Stream webdata = wb.OpenRead("http://96.45.180.29/Update/NeteaseMusicDownloader.txt");
             StreamReader sr = new StreamReader(webdata);
@@ -694,17 +712,226 @@ namespace Music_Downloader
 
         private void PictureBox3_Click(object sender, EventArgs e)
         {
-
+            axWindowsMediaPlayer1.Ctlcontrols.next();
         }
 
         private void PictureBox2_Click(object sender, EventArgs e)
         {
-
+            axWindowsMediaPlayer1.Ctlcontrols.previous();
         }
 
         private void PictureBox1_Click(object sender, EventArgs e)
         {
+            if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsPlaying)
+            {
+                axWindowsMediaPlayer1.Ctlcontrols.pause();
+                pictureBox1.Image = Properties.Resources.pause;
+                return;
+            }
+            if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsPaused)
+            {
+                axWindowsMediaPlayer1.Ctlcontrols.play();
+                pictureBox1.Image = Properties.Resources.play;
+                return;
+            }
+            if (axWindowsMediaPlayer1.currentPlaylist.count != 0)
+            {
+                axWindowsMediaPlayer1.Ctlcontrols.play();
+                pictureBox1.Image = Properties.Resources.pause;
+            }
+        }
 
+        private void PictureBox5_Click(object sender, EventArgs e)
+        {
+            skinTabControl1.SelectedIndex = 1;
+        }
+
+        private void PictureBox6_Click(object sender, EventArgs e)
+        {
+            skinTabControl1.SelectedIndex = 0;
+        }
+
+        private void ToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            ArrayList a = new ArrayList();
+            a = GetListViewSelectedIndices();
+            if (smusiclist != null)
+            {
+                Play(smusiclist.data[(int)a[0]].url);
+            }
+            if (musiclist != null)
+            {
+                Play(musiclist.data[(int)a[0]].url);
+            }
+        }
+
+        private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ArrayList a = new ArrayList();
+            a = GetListViewSelectedIndices();
+            if (smusiclist != null)
+            {
+                Play(smusiclist.data[(int)a[0]].url);
+            }
+            if (musiclist != null)
+            {
+                Play(musiclist.data[(int)a[0]].url);
+            }
+        }
+
+        public void Play(string url)
+        {
+            axWindowsMediaPlayer1.URL = url;
+            axWindowsMediaPlayer1.Ctlcontrols.play();
+            timer2.Enabled = true;
+        }
+
+        public void Volumechange(int num)
+        {
+            axWindowsMediaPlayer1.settings.volume = num;
+        }
+
+        public void Positionchange(int p)
+        {
+            axWindowsMediaPlayer1.Ctlcontrols.currentPosition = (double)p;
+        }
+
+        private void MetroTrackBar2_ValueChanged(object sender, EventArgs e)
+        {
+            Volumechange(metroTrackBar2.Value);
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            metroTrackBar1.Value = (int)axWindowsMediaPlayer1.Ctlcontrols.currentPosition;
+        }
+
+        private void Timer2_Tick(object sender, EventArgs e)
+        {
+            if (axWindowsMediaPlayer1.currentMedia.duration != 0)
+            {
+                metroTrackBar1.Maximum = (int)axWindowsMediaPlayer1.currentMedia.duration;
+                timer2.Enabled = false;
+            }
+        }
+
+        private void MetroTrackBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+            Positionchange(metroTrackBar1.Value);
+        }
+
+        private void ToolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            ArrayList a = new ArrayList();
+            a = GetListViewSelectedIndices();
+
+            for (int i = 0; i < a.Count; i++)
+            {
+                PlayList p = new PlayList();
+                if (smusiclist != null)
+                {
+                    p.SongName = smusiclist.data[(int)a[i]].name;
+                    p.SingerName = smusiclist.data[(int)a[i]].singer;
+                    p.Url = smusiclist.data[(int)a[i]].url;
+                }
+                else
+                {
+                    p.SongName = musiclist.data[(int)a[i]].name;
+                    p.SingerName = musiclist.data[(int)a[i]].singer;
+                    p.Url = musiclist.data[(int)a[i]].url;
+                }
+                AddMusicToList(p);
+            }
+        }
+
+        public void AddMusicToList(PlayList p)
+        {
+            pl.Add(p);
+            listView2.Items.Add(p.SongName);
+            listView2.Items[listView2.Items.Count - 1].SubItems.Add(p.SingerName);
+            IWMPMedia media = axWindowsMediaPlayer1.newMedia(p.Url);
+            axWindowsMediaPlayer1.currentPlaylist.appendItem(media);
+        }
+
+        private void PictureBox7_Click(object sender, EventArgs e)
+        {
+            skinTabControl1.SelectedIndex = 2;
+        }
+
+        private void ListView1_DoubleClick_1(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                ToolStripMenuItem3_Click(this, new EventArgs());
+            }
+            else
+            {
+                toolStripMenuItem2_Click(this, new EventArgs());
+            }
+        }
+
+        private void PictureBox4_Click(object sender, EventArgs e)
+        {
+            if (playmode == "shunxu")
+            {
+                pictureBox4.Image = Properties.Resources.suiji;
+                playmode = "suiji";
+                axWindowsMediaPlayer1.settings.setMode("shuffle", true);
+            }
+            else
+            {
+                pictureBox4.Image = Properties.Resources.shunxu;
+                playmode = "shunxu";
+                axWindowsMediaPlayer1.settings.setMode("shuffle", false);
+            }
+        }
+
+        private void ToolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem9_Click(object sender, EventArgs e)
+        {
+            ArrayList a = new ArrayList();
+            a = GetListViewSelectedIndices_musiclist();
+            for (int i = 0; i < a.Count; i++)
+            {
+                IWMPMedia media = axWindowsMediaPlayer1.currentPlaylist.Item[(int)a[i] - i];
+                axWindowsMediaPlayer1.currentPlaylist.removeItem(media);
+                ListViewItem l = listView2.Items[(int)a[i] - i];
+                listView2.Items.Remove(l);
+                pl.Remove(pl[(int)a[i] - i]);
+            }
+        }
+        public ArrayList GetListViewSelectedIndices_musiclist()
+        {
+            ArrayList a = new ArrayList();
+            string mes = null;
+            for (int i = 0; i < listView2.SelectedIndices.Count; i++)
+            {
+                a.Add(listView2.SelectedIndices[i]);
+            }
+            foreach (int i in a)
+            {
+                mes += i.ToString();
+            }
+            return a;
         }
     }
 }
