@@ -36,7 +36,6 @@
             this.DownloadPathtextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.SearchtextBox = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,6 +99,7 @@
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.radioButton5 = new System.Windows.Forms.RadioButton();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -148,12 +148,6 @@
             resources.ApplyResources(this.SearchtextBox, "SearchtextBox");
             this.SearchtextBox.Name = "SearchtextBox";
             this.SearchtextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SearchtextBox_KeyPress);
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label6.Name = "label6";
             // 
             // contextMenuStrip1
             // 
@@ -600,10 +594,20 @@
             this.radioButton5.Name = "radioButton5";
             this.radioButton5.UseVisualStyleBackColor = true;
             // 
+            // linkLabel2
+            // 
+            resources.ApplyResources(this.linkLabel2, "linkLabel2");
+            this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel2.LinkColor = System.Drawing.SystemColors.AppWorkspace;
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel2_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.radioButton5);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.axWindowsMediaPlayer1);
@@ -627,7 +631,6 @@
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.DownloadPathtextBox);
             this.Controls.Add(this.label2);
@@ -673,7 +676,6 @@
         private System.Windows.Forms.TextBox DownloadPathtextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox SearchtextBox;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
@@ -737,6 +739,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
         private System.Windows.Forms.ToolStripMenuItem 删除该项ToolStripMenuItem;
         private System.Windows.Forms.RadioButton radioButton5;
+        private System.Windows.Forms.LinkLabel linkLabel2;
     }
 }
 

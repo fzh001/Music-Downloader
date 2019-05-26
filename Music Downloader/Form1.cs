@@ -783,7 +783,7 @@ namespace Music_Downloader
         }
         public void update()
         {
-            string ver = "1.2.5";
+            string ver = "1.2.6";
             WebClient wb = new WebClient();
             Stream webdata = wb.OpenRead("http://96.45.180.29/Update/NeteaseMusicDownloader.txt");
             StreamReader sr = new StreamReader(webdata);
@@ -1103,6 +1103,11 @@ namespace Music_Downloader
                 }
             }
             return true;
+        }
+        private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            About aboutform = new About();
+            aboutform.Show();
         }
     }
 }

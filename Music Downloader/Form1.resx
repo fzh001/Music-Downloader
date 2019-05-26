@@ -283,40 +283,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;SearchtextBox.ZOrder" xml:space="preserve">
-    <value>20</value>
-  </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 7.5pt</value>
-  </data>
-  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-1, 632</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 16</value>
-  </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>NiTian Made</value>
-  </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
-  </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>21</value>
   </data>
   <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>22, 17</value>
@@ -403,7 +370,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBox1.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>26</value>
   </data>
   <data name="radioButton1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -436,7 +403,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButton1.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>25</value>
   </data>
   <data name="radioButton2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -469,7 +436,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButton2.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>24</value>
   </data>
   <data name="radioButton3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -502,7 +469,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButton3.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="Musicnumlabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -535,7 +502,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Musicnumlabel.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -568,7 +535,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="metroButton1.Location" type="System.Drawing.Point, System.Drawing">
     <value>360, 71</value>
@@ -592,7 +559,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;metroButton1.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="metroButton2.Location" type="System.Drawing.Point, System.Drawing">
     <value>360, 118</value>
@@ -616,7 +583,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;metroButton2.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="metroButton3.Location" type="System.Drawing.Point, System.Drawing">
     <value>360, 149</value>
@@ -640,7 +607,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;metroButton3.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="radioButton4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -673,7 +640,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButton4.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="metroTrackBar1.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 582</value>
@@ -697,7 +664,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;metroTrackBar1.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="metroTrackBar2.Location" type="System.Drawing.Point, System.Drawing">
     <value>327, 609</value>
@@ -721,7 +688,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;metroTrackBar2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>182, 17</value>
@@ -765,7 +732,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;axWindowsMediaPlayer1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="columnHeader1.DisplayIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -825,7 +792,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBox2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="pictureBox1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -849,7 +816,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -886,7 +853,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -923,7 +890,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="pictureBox4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -947,7 +914,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox4.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="pictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -980,7 +947,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox5.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1463,7 +1430,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox6.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="pictureBox7.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1498,7 +1465,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox7.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="radioButton5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1531,6 +1498,39 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButton5.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="linkLabel2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkLabel2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 7.5pt</value>
+  </data>
+  <data name="linkLabel2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkLabel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>-1, 631</value>
+  </data>
+  <data name="linkLabel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 16</value>
+  </data>
+  <data name="linkLabel2.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="linkLabel2.Text" xml:space="preserve">
+    <value>NiTian Made</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.Name" xml:space="preserve">
+    <value>linkLabel2</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
