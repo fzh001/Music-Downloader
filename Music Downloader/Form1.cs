@@ -39,39 +39,77 @@ namespace Music_Downloader
                 {
                     if (id.IndexOf("&userid") != -1)
                     {
-                        url = "https://v1.itooi.cn/netease/songList?id=" + GetMidText(id, left, "&userid") + "&format=1";
+                        url = "https://v1.itooi.cn/netease/songList?id=" + GetMidText(id, left, "&userid") + "&pageSize=100&page=0&format=1";
                     }
                     else
                     {
-                        url = "https://v1.itooi.cn/netease/songList?id=" + id.Substring(id.IndexOf(left) + left.Length) + "&format=1";
+                        url = "https://v1.itooi.cn/netease/songList?id=" + id.Substring(id.IndexOf(left) + left.Length) + "&pageSize=100&page=0&format=1";
                     }
                 }
                 else
                 {
-                    url = "https://v1.itooi.cn/netease/songList?id=" + id + "&format=1";
+                    url = "https://v1.itooi.cn/netease/songList?id=" + id + "&pageSize=100&page=0&format=1";
                 }
             }
             if (musicapicode == 2)
             {
-                url = "https://v1.itooi.cn/kugou/songList?id=" + IDtextBox.Text;
+                url = "https://v1.itooi.cn/kugou/songList?id=" + id + "&pageSize=100&page=0&format=1";
             }
             if (musicapicode == 3)
             {
-                if (IDtextBox.Text.IndexOf("http://url.cn/") != -1 || IDtextBox.Text.IndexOf("https://") != -1)
+                if (id.IndexOf("http://url.cn/") != -1 || id.IndexOf("https://") != -1)
                 {
-                    string qqid = GetRealUrl(IDtextBox.Text);
-                    url = "https://v1.itooi.cn/tencent/songList?id=" + qqid.Substring(qqid.IndexOf("id=") + 3);
+                    string qqid = GetRealUrl(id);
+                    url = "https://v1.itooi.cn/tencent/songList?id=" + qqid.Substring(qqid.IndexOf("id=") + 3) + "&pageSize=100&page=0&format=1";
                 }
                 else
                 {
-                    if (IDtextBox.Text.IndexOf("/playlist/") != -1)
+                    if (id.IndexOf("/playlist/") != -1)
                     {
-                        url = "https://v1.itooi.cn/tencent/songList?id=" + GetMidText(IDtextBox.Text, "/playlist/", ".html");
+                        url = "https://v1.itooi.cn/tencent/songList?id=" + GetMidText(id, "/playlist/", ".html") + "&pageSize=100&page=0&format=1";
                     }
                     else
                     {
-                        url = "https://v1.itooi.cn/tencent/songList?id=" + IDtextBox.Text;
+                        url = "https://v1.itooi.cn/tencent/songList?id=" + id + "&pageSize=100&page=0&format=1";
                     }
+                }
+            }
+            if (musicapicode == 4)
+            {
+                if (id.IndexOf("http://") != -1)
+                {
+                    if (id.IndexOf("?channelId") != -1)
+                    {
+                        GetMidText(id, "playlist/", "?channelId");
+                    }
+                    else
+                    {
+                        string[] a = id.Split('/');
+                        url = "https://v1.itooi.cn/kuwo/songList?id=" + a[a.Length - 1] + "&pageSize=100&page=0&format=1";
+                    }
+                }
+                else
+                {
+                    url = "https://v1.itooi.cn/kuwo/songList?id=" + id + "&pageSize=100&page=0&format=1";
+                }
+            }
+            if (musicapicode == 5)
+            {
+                if (id.IndexOf("http://") != -1)
+                {
+                    if (id.IndexOf("?channelId") != -1)
+                    {
+                        GetMidText(id, "playlist/", "?channelId");
+                    }
+                    else
+                    {
+                        string[] a = id.Split('/');
+                        url = "https://v1.itooi.cn/migu/songList?id=" + a[a.Length - 1] + "&pageSize=100&page=0&format=1";
+                    }
+                }
+                else
+                {
+                    url = "https://v1.itooi.cn/migu/songList?id=" + id + "&pageSize=100&page=0&format=1";
                 }
             }
             try
@@ -180,6 +218,12 @@ namespace Music_Downloader
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            /*
+            if (GetApiCode() == 4)
+            {
+                MessageBox.Show("暂不支持获取改音源的歌单", caption: "提示：");
+            }
+            */
             skinTabControl1.SelectedIndex = 0;
             a = new Thread(GetMusicListThread);
             a.Start();
@@ -478,6 +522,10 @@ namespace Music_Downloader
             {
                 url = "https://v1.itooi.cn/kuwo/search?keyword=" + key + "&type=song&pageSize=100&page=0&format=1"; //酷我音乐接口
             }
+            if (api == 5)
+            {
+                url = "https://v1.itooi.cn/migu/search?keyword=" + key + "&type=song&pageSize=100&page=0&format=1"; //咪咕音乐接口
+            }
             try
             {
                 WebClient wc = new WebClient();
@@ -508,6 +556,10 @@ namespace Music_Downloader
             if (radioButton4.Checked)
             {
                 return 4;
+            }
+            if (radioButton5.Checked)
+            {
+                return 5;
             }
             return 0;
         }
@@ -1031,7 +1083,14 @@ namespace Music_Downloader
         {
             if (!IfAllDownloadFinish())
             {
-                MessageBox.Show("该功能不能用于取消下载，请等待所有下载完成后再试。",caption:"提示：");
+                MessageBox.Show("该功能不能用于取消下载，请等待所有下载完成后再试。", caption: "提示：");
+            }
+            else
+            {
+                for (int i = 0; i < listView3.SelectedIndices.Count; i++)
+                {
+                    listView3.Items[listView1.SelectedIndices[i]].Remove();
+                }
             }
         }
         public bool IfAllDownloadFinish()
