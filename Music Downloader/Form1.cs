@@ -22,12 +22,10 @@ namespace Music_Downloader
         //全局变量
         Music_Downloader.Root1 musiclist;
         SearchRoot smusiclist;
-        int MusicAPICode;
         ArrayList downloadindices = new ArrayList();
         Thread a;
         List<PlayList> pl = new List<PlayList>();
         string playmode = "shunxu";
-        List<DownloadList> d = new List<DownloadList>();
         public string GetMusiclistJson(string id, int musicapicode)
         {
             string url = null;
@@ -171,7 +169,6 @@ namespace Music_Downloader
             listView1.Items.Clear();
             musiclist = null;
             smusiclist = null;
-            MusicAPICode = GetApiCode();
             string musiclistjson = GetMusiclistJson(IDtextBox.Text, GetApiCode());
             if (musiclistjson == null)
             {
@@ -208,7 +205,7 @@ namespace Music_Downloader
             string singername = "";
             string lrcurl = "";
             Stream s;
-            
+
             string downloadpath = "";
             List<DownloadList> dl = (List<DownloadList>)o;
             int listviewindicesnum = listView3.Items.Count;
@@ -529,7 +526,6 @@ namespace Music_Downloader
                 MessageBox.Show("未搜索到相关内容", caption: "警告：");
                 return;
             }
-            MusicAPICode = GetApiCode();
             for (int i = 0; i < smusiclist.data.Count; i++)
             {
                 listView1.Items.Add(smusiclist.data[i].name);
@@ -578,16 +574,18 @@ namespace Music_Downloader
         }
         public DownloadList SetDownloadMedia(int Api, string ID, bool IfDownloadlrc, bool IfDownloadSong, string Savepath, string Songname, string Singername, string Url, string LrcUrl)
         {
-            DownloadList dd = new DownloadList();
-            dd.Api = Api;
-            dd.ID = ID;
-            dd.IfDownloadlrc = IfDownloadlrc;
-            dd.IfDownloadSong = IfDownloadSong;
-            dd.Savepath = Savepath;
-            dd.Songname = Songname;
-            dd.Singername = Singername;
-            dd.Url = Url;
-            dd.LrcUrl = LrcUrl;
+            DownloadList dd = new DownloadList
+            {
+                Api = Api,
+                ID = ID,
+                IfDownloadlrc = IfDownloadlrc,
+                IfDownloadSong = IfDownloadSong,
+                Savepath = Savepath,
+                Songname = Songname,
+                Singername = Singername,
+                Url = Url,
+                LrcUrl = LrcUrl
+            };
             return dd;
         }
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -720,9 +718,11 @@ namespace Music_Downloader
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Setting s = new Setting();
-            s.SavePath = DownloadPathtextBox.Text;
-            s.PlayList = pl;
+            Setting s = new Setting
+            {
+                SavePath = DownloadPathtextBox.Text,
+                PlayList = pl
+            };
             string json = JsonConvert.SerializeObject(s);
             StreamWriter sw = new StreamWriter(Environment.CurrentDirectory + "\\Setting.json");
             sw.Write(json);
@@ -1029,6 +1029,21 @@ namespace Music_Downloader
         }
         private void 删除该项ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!IfAllDownloadFinish())
+            {
+                MessageBox.Show("该功能不能用于取消下载，请等待所有下载完成后再试。",caption:"提示：");
+            }
+        }
+        public bool IfAllDownloadFinish()
+        {
+            for (int i = 0; i < listView3.Items.Count; i++)
+            {
+                if (listView3.Items[i].SubItems[2].Text != "下载完成")
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
