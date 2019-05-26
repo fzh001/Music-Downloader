@@ -783,16 +783,16 @@ namespace Music_Downloader
         }
         public void update()
         {
-            string ver = "1.2.6";
+            string ver = "1.3.0";
             WebClient wb = new WebClient();
-            Stream webdata = wb.OpenRead("http://96.45.180.29/Update/NeteaseMusicDownloader.txt");
+            Stream webdata = wb.OpenRead("http://96.45.180.29/Update/MusicDownloader.txt");
             StreamReader sr = new StreamReader(webdata);
             string data = sr.ReadToEnd();
             if (ver != data)
             {
                 if (MessageBox.Show("检测到新版本，是否打开更新页面？", caption: "提示：", buttons: MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    Process.Start("explorer.exe", "https://www.52pojie.cn/thread-929956-1-1.html");
+                    Process.Start("explorer.exe", "http://96.45.180.29/Update/MusicDownloaderUpdate.txt");
                 }
             }
         }
