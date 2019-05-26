@@ -46,7 +46,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.下载所有歌词ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.下载选中歌词ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -73,10 +72,12 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.skinTabControl1 = new CCWin.SkinControl.SkinTabControl();
             this.skinTabPage1 = new CCWin.SkinControl.SkinTabPage();
+            this.label5 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
+            this.label4 = new System.Windows.Forms.Label();
             this.listView2 = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -89,15 +90,15 @@
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.skinTabPage3 = new CCWin.SkinControl.SkinTabPage();
+            this.label7 = new System.Windows.Forms.Label();
             this.listView3 = new System.Windows.Forms.ListView();
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.删除该项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -110,6 +111,7 @@
             this.skinTabPage2.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.skinTabPage3.SuspendLayout();
+            this.contextMenuStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             this.SuspendLayout();
@@ -162,8 +164,7 @@
             this.toolStripMenuItem2,
             this.toolStripSeparator1,
             this.下载所有歌词ToolStripMenuItem,
-            this.下载选中歌词ToolStripMenuItem,
-            this.toolStripSeparator2});
+            this.下载选中歌词ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             // 
@@ -212,11 +213,6 @@
             this.下载选中歌词ToolStripMenuItem.Name = "下载选中歌词ToolStripMenuItem";
             resources.ApplyResources(this.下载选中歌词ToolStripMenuItem, "下载选中歌词ToolStripMenuItem");
             this.下载选中歌词ToolStripMenuItem.Click += new System.EventHandler(this.下载选中歌词ToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             // 
             // checkBox1
             // 
@@ -403,7 +399,7 @@
             this.skinTabControl1.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl1.PageHover")));
             this.skinTabControl1.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
             this.skinTabControl1.PageNorml = null;
-            this.skinTabControl1.SelectedIndex = 0;
+            this.skinTabControl1.SelectedIndex = 1;
             this.skinTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             // 
             // skinTabPage1
@@ -414,6 +410,11 @@
             resources.ApplyResources(this.skinTabPage1, "skinTabPage1");
             this.skinTabPage1.Name = "skinTabPage1";
             this.skinTabPage1.TabItemImage = null;
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
             // 
             // listView1
             // 
@@ -445,6 +446,11 @@
             resources.ApplyResources(this.skinTabPage2, "skinTabPage2");
             this.skinTabPage2.Name = "skinTabPage2";
             this.skinTabPage2.TabItemImage = null;
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
             // 
             // listView2
             // 
@@ -529,12 +535,18 @@
             this.skinTabPage3.Name = "skinTabPage3";
             this.skinTabPage3.TabItemImage = null;
             // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
             // listView3
             // 
             this.listView3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader7,
             this.columnHeader8,
             this.columnHeader9});
+            this.listView3.ContextMenuStrip = this.contextMenuStrip3;
             resources.ApplyResources(this.listView3, "listView3");
             this.listView3.FullRowSelect = true;
             this.listView3.GridLines = true;
@@ -554,6 +566,19 @@
             // 
             resources.ApplyResources(this.columnHeader9, "columnHeader9");
             // 
+            // contextMenuStrip3
+            // 
+            this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.删除该项ToolStripMenuItem});
+            this.contextMenuStrip3.Name = "contextMenuStrip3";
+            resources.ApplyResources(this.contextMenuStrip3, "contextMenuStrip3");
+            // 
+            // 删除该项ToolStripMenuItem
+            // 
+            this.删除该项ToolStripMenuItem.Name = "删除该项ToolStripMenuItem";
+            resources.ApplyResources(this.删除该项ToolStripMenuItem, "删除该项ToolStripMenuItem");
+            this.删除该项ToolStripMenuItem.Click += new System.EventHandler(this.删除该项ToolStripMenuItem_Click);
+            // 
             // pictureBox6
             // 
             resources.ApplyResources(this.pictureBox6, "pictureBox6");
@@ -567,21 +592,6 @@
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.TabStop = false;
             this.pictureBox7.Click += new System.EventHandler(this.PictureBox7_Click);
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
             // 
             // Form1
             // 
@@ -639,6 +649,7 @@
             this.contextMenuStrip2.ResumeLayout(false);
             this.skinTabPage3.ResumeLayout(false);
             this.skinTabPage3.PerformLayout();
+            this.contextMenuStrip3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             this.ResumeLayout(false);
@@ -666,7 +677,6 @@
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.Label Musicnumlabel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private MetroFramework.Controls.MetroButton metroButton1;
         private MetroFramework.Controls.MetroButton metroButton2;
@@ -716,6 +726,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
+        private System.Windows.Forms.ToolStripMenuItem 删除该项ToolStripMenuItem;
     }
 }
 

@@ -20,5 +20,7 @@ namespace Music_Downloader
         public string SingerName { get; set; }
 
         public string Url { get; set; }
+        public string ID { get; set; }
+        public string LrcUrl { get; set; }
     }
 }
