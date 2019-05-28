@@ -1,373 +1,208 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Music_Downloader
+namespace Music_Downloader.KuwoMusiclist
 {
-    public class Privilege
+    public class MusiclistItem
     {
         /// <summary>
         /// 
         /// </summary>
-        public int st { get; set; }
+        public string AARTIST { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int flag { get; set; }
+        public string copyright { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int subp { get; set; }
+        public string tpay { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int fl { get; set; }
+        public string formats { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int fee { get; set; }
+        public string artist { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int dl { get; set; }
+        public string FARTIST { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int cp { get; set; }
+        public string firstrecordtime { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string cs { get; set; }
+        public string nationid { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string toast { get; set; }
+        public string collect_num { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int maxbr { get; set; }
+        public string isdownload { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int id { get; set; }
+        public string isstar { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int pl { get; set; }
+        public string FSONGNAME { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int sp { get; set; }
+        public string duration { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int payed { get; set; }
-
-    }
-
-
-
-    public class H
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public int br { get; set; }
+        public string isshow { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int fid { get; set; }
+        public string score100 { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int size { get; set; }
+        public string overseas_copyright { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public float vd { get; set; }
+        public string isshowtype { get; set; }
 
-    }
-
-
-
-    public class Al
-    {
         /// <summary>
         /// 
         /// </summary>
-        public string picUrl { get; set; }
+        public string displayartistname { get; set; }
 
         /// <summary>
-        /// 和自己对话 From M.E. To Myself
+        /// 
+        /// </summary>
+        public string displaysongname { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string mp3sig1 { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string id { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string mp3sig2 { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string displayalbumname { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string FALBUM { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string hasmv { get; set; }
+
+        /// <summary>
+        /// 初めてのデート
+        /// </summary>
+        public string album { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string albumid { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string overseas_pay { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string pay { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string artistid { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string musicattachinfoid { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string nsig2 { get; set; }
+
+        /// <summary>
+        /// 初めてのデート;SimorE;初めてのデート;3890999498;3538685204;MUSIC_27992881;344760056;896202754;27992881;0;0;MV_0;0
+        /// </summary>
+        //public string params { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string nsig1 { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string opay { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string isbatch { get; set; }
+
+        /// <summary>
+        /// 初めてのデート
         /// </summary>
         public string name { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public List<string> tns { get; set; }
+        public string is_polong { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string pic_str { get; set; }
+        public string online { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int id { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public long pic { get; set; }
-
-    }
-
-
-
-    public class L
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public int br { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int fid { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int size { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public float vd { get; set; }
-
-    }
-
-
-
-    public class M
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public int br { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int fid { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int size { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public float vd { get; set; }
-
-    }
-
-
-
-    public class ArItem
-    {
-        /// <summary>
-        /// 林俊杰
-        /// </summary>
-        public string name { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public List<string> tns { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public List<string> alias { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int id { get; set; }
-
-    }
-
-
-
-    public class SongsItem
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public int no { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int copyright { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int fee { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Privilege privilege { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int mst { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int pst { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public float pop { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int dt { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int rtype { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int s_id { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public List<string> rtUrls { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int id { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int st { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string cd { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public long publishTime { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string cf { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public H h { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int mv { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Al al { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public L l { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public M m { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int cp { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public List<string> alia { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int djId { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public List<ArItem> ar { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int ftype { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int t { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int v { get; set; }
-
-        /// <summary>
-        /// 关键词
-        /// </summary>
-        public string name { get; set; }
+        public string muti_ver { get; set; }
 
     }
 
@@ -378,23 +213,123 @@ namespace Music_Downloader
         /// <summary>
         /// 
         /// </summary>
-        public List<SongsItem> songs { get; set; }
+        public string uname { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int songCount { get; set; }
+        public string tagid { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long playnum { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string pic { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long sharenum { get; set; }
+
+        /// <summary>
+        /// 轻音乐/带来舒适心情，放松旋律
+        /// </summary>
+        public string title { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string type { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ispub { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<MusiclistItem> musiclist { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string result { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long uid { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long total { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long songtime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long validtotal { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long ctime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long id { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long state { get; set; }
+
+        /// <summary>
+        /// 放松,治愈,轻音乐
+        /// </summary>
+        public string tag { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long rn { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long abstime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public long pn { get; set; }
+
+        /// <summary>
+        /// 看着舒心的熊猫玩偶，希望带给你愉快的心情，忘记烦恼和远方。本封面选自电影《泰迪熊》有兴趣的同学可以看一下哦。
+        /// </summary>
+        public string info { get; set; }
 
     }
 
 
 
-    public class Root
+    public class KuwoMusicList
     {
         /// <summary>
         /// 
         /// </summary>
-        public int code { get; set; }
+        public long code { get; set; }
 
         /// <summary>
         /// 

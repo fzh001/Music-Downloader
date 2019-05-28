@@ -11,6 +11,7 @@ namespace Music_Downloader
         public string SavePath { get; set; }
 
         public List<PlayList> PlayList { get; set; }
+        public int DownloadQuality { get; set; }
     }
 
     public class PlayList
@@ -22,5 +23,6 @@ namespace Music_Downloader
         public string Url { get; set; }
         public string ID { get; set; }
         public string LrcUrl { get; set; }
+        public string Album { get; set; }
     }
 }

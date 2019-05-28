@@ -59,7 +59,6 @@
             this.metroTrackBar2 = new MetroFramework.Controls.MetroTrackBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -87,11 +86,13 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.listView2 = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.skinTabPage3 = new CCWin.SkinControl.SkinTabPage();
             this.label7 = new System.Windows.Forms.Label();
             this.listView3 = new System.Windows.Forms.ListView();
@@ -100,8 +101,11 @@
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.metroComboBox1 = new MetroFramework.Controls.MetroComboBox();
+            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
+            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -115,6 +119,7 @@
             this.skinTabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
             // 
             // IDtextBox
@@ -311,12 +316,6 @@
             this.timer2.Interval = 500;
             this.timer2.Tick += new System.EventHandler(this.Timer2_Tick);
             // 
-            // axWindowsMediaPlayer1
-            // 
-            resources.ApplyResources(this.axWindowsMediaPlayer1, "axWindowsMediaPlayer1");
-            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
-            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
-            // 
             // columnHeader1
             // 
             resources.ApplyResources(this.columnHeader1, "columnHeader1");
@@ -340,6 +339,7 @@
             // contextMenuStrip2
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem10,
             this.toolStripMenuItem9,
             this.toolStripSeparator5,
             this.toolStripMenuItem5,
@@ -496,7 +496,8 @@
             // 
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader10,
-            this.columnHeader11});
+            this.columnHeader11,
+            this.columnHeader6});
             this.listView1.ContextMenuStrip = this.contextMenuStrip1;
             resources.ApplyResources(this.listView1, "listView1");
             this.listView1.FullRowSelect = true;
@@ -513,6 +514,10 @@
             // columnHeader11
             // 
             resources.ApplyResources(this.columnHeader11, "columnHeader11");
+            // 
+            // columnHeader6
+            // 
+            resources.ApplyResources(this.columnHeader6, "columnHeader6");
             // 
             // skinTabPage2
             // 
@@ -532,7 +537,8 @@
             // 
             this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader4,
-            this.columnHeader5});
+            this.columnHeader5,
+            this.columnHeader12});
             this.listView2.ContextMenuStrip = this.contextMenuStrip2;
             resources.ApplyResources(this.listView2, "listView2");
             this.listView2.FullRowSelect = true;
@@ -540,6 +546,7 @@
             this.listView2.Name = "listView2";
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
+            this.listView2.DoubleClick += new System.EventHandler(this.ListView2_DoubleClick);
             // 
             // columnHeader4
             // 
@@ -548,6 +555,10 @@
             // columnHeader5
             // 
             resources.ApplyResources(this.columnHeader5, "columnHeader5");
+            // 
+            // columnHeader12
+            // 
+            resources.ApplyResources(this.columnHeader12, "columnHeader12");
             // 
             // skinTabPage3
             // 
@@ -603,10 +614,42 @@
             this.pictureBox7.TabStop = false;
             this.pictureBox7.Click += new System.EventHandler(this.PictureBox7_Click);
             // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // metroComboBox1
+            // 
+            this.metroComboBox1.FormattingEnabled = true;
+            resources.ApplyResources(this.metroComboBox1, "metroComboBox1");
+            this.metroComboBox1.Items.AddRange(new object[] {
+            resources.GetString("metroComboBox1.Items"),
+            resources.GetString("metroComboBox1.Items1"),
+            resources.GetString("metroComboBox1.Items2"),
+            resources.GetString("metroComboBox1.Items3"),
+            resources.GetString("metroComboBox1.Items4")});
+            this.metroComboBox1.Name = "metroComboBox1";
+            this.metroComboBox1.UseSelectable = true;
+            // 
+            // axWindowsMediaPlayer1
+            // 
+            resources.ApplyResources(this.axWindowsMediaPlayer1, "axWindowsMediaPlayer1");
+            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
+            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
+            // 
+            // toolStripMenuItem10
+            // 
+            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
+            resources.ApplyResources(this.toolStripMenuItem10, "toolStripMenuItem10");
+            this.toolStripMenuItem10.Click += new System.EventHandler(this.ToolStripMenuItem10_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.metroComboBox1);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.radioButton5);
             this.Controls.Add(this.checkBox2);
@@ -646,7 +689,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
             this.contextMenuStrip3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -663,6 +705,7 @@
             this.skinTabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -740,6 +783,11 @@
         private System.Windows.Forms.ToolStripMenuItem 删除该项ToolStripMenuItem;
         private System.Windows.Forms.RadioButton radioButton5;
         private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.Label label6;
+        private MetroFramework.Controls.MetroComboBox metroComboBox1;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader12;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
     }
 }
 
