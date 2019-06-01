@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Music_Downloader</RootNamespace>
     <AssemblyName>Music Downloader</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -127,6 +127,7 @@
     <Compile Include="KuwoMusicList.cs" />
     <Compile Include="KuwoSearchRoot.cs" />
     <Compile Include="BaiduSearchRoot.cs" />
+    <Compile Include="LrcDetails.cs" />
     <Compile Include="NeteaseMusicList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -12,6 +12,7 @@ namespace Music_Downloader
 
         public List<PlayList> PlayList { get; set; }
         public int DownloadQuality { get; set; }
+        public int Volume { get; set; }
     }
 
     public class PlayList

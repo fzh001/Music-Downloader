@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using WMPLib;
@@ -27,6 +28,7 @@ namespace Music_Downloader
         Thread a;
         List<PlayList> pl = new List<PlayList>();
         string playmode = "shunxu";
+        LrcDetails lrcd = new LrcDetails();
         public List<SearchResult> GetMusiclistJson(string id, int musicapicode)
         {
             string url = null;
@@ -276,46 +278,48 @@ namespace Music_Downloader
             public int code { get; set; }
             public Data data { get; set; }
         }
-        public void GetMusicListThread()
+        public void GetMusicListThread(object id)
         {
-            if (IDtextBox.Text == null || IDtextBox.Text == "")
+            if ((string)id == null || (string)id == "")
             {
                 MessageBox.Show("ID不能为空", caption: "警告：");
                 return;
             }
-            if (IDtextBox.Text.IndexOf("qq.com") != -1)
+            if (id.ToString().IndexOf("qq.com") != -1)
             {
                 radioButton3.Checked = true;
             }
-            if (IDtextBox.Text.IndexOf("163.com") != -1)
+            if (id.ToString().IndexOf("163.com") != -1)
             {
                 radioButton1.Checked = true;
             }
-            listView1.Items.Clear();
-            List<SearchResult> musiclistjson = GetMusiclistJson(IDtextBox.Text, GetApiCode());
-            if (musiclistjson == null)
+            Searchresult = GetMusiclistJson(id.ToString(), GetApiCode());
+            if (Searchresult == null)
             {
                 MessageBox.Show("歌单获取错误", caption: "警告：");
                 return;
             }
-            for (int i = 0; i < musiclistjson.Count; i++)
+            listView1.Items.Clear();
+            for (int i = 0; i < Searchresult.Count; i++)
             {
-                listView1.Items.Add(musiclistjson[i].SongName);
-                listView1.Items[i].SubItems.Add(musiclistjson[i].SingerName);
-                listView1.Items[i].SubItems.Add(musiclistjson[i].Album);
+                listView1.Items.Add(Searchresult[i].SongName);
+                listView1.Items[i].SubItems.Add(Searchresult[i].SingerName);
+                listView1.Items[i].SubItems.Add(Searchresult[i].Album);
             }
             Musicnumlabel.Text = "歌曲总数：" + listView1.Items.Count;
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            listView1.Items.Clear();
+            listView1.Items.Add("搜索中...");
             if (GetApiCode() == 2)
             {
                 MessageBox.Show("暂不支持获取该音源歌单", caption: "提示：");
                 return;
             }
             skinTabControl1.SelectedIndex = 0;
-            a = new Thread(GetMusicListThread);
-            a.Start();
+            a = new Thread(new ParameterizedThreadStart(GetMusicListThread));
+            a.Start(IDtextBox.Text);
         }
         public string NameCheck(string name)
         {
@@ -420,11 +424,13 @@ namespace Music_Downloader
             skinTabControl1.ItemSize = new Size(0, 1);
             axWindowsMediaPlayer1.settings.volume = 50;
             string settingpath = Environment.CurrentDirectory + "\\Setting.json";
+            axWindowsMediaPlayer1.settings.setMode("shuffle", false);
             if (File.Exists(settingpath))
             {
                 StreamReader sr = new StreamReader(settingpath);
                 Setting s = JsonConvert.DeserializeObject<Music_Downloader.Setting>(sr.ReadToEnd());
                 pl = s.PlayList;
+                metroTrackBar2.Value = s.Volume;
                 sr.Close();
                 DownloadPathtextBox.Text = s.SavePath;
                 metroComboBox1.SelectedIndex = s.DownloadQuality;
@@ -726,6 +732,8 @@ namespace Music_Downloader
         private void Searchbutton_Click(object sender, EventArgs e)
         {
             skinTabControl1.SelectedIndex = 0;
+            listView1.Items.Clear();
+            listView1.Items.Add("搜索中...");
             a = new Thread(SearchThread);
             a.Start();
         }
@@ -826,7 +834,8 @@ namespace Music_Downloader
             {
                 SavePath = DownloadPathtextBox.Text,
                 PlayList = pl,
-                DownloadQuality = metroComboBox1.SelectedIndex
+                DownloadQuality = metroComboBox1.SelectedIndex,
+                Volume = metroTrackBar2.Value
             };
             string json = JsonConvert.SerializeObject(s);
             StreamWriter sw = new StreamWriter(Environment.CurrentDirectory + "\\Setting.json");
@@ -836,17 +845,24 @@ namespace Music_Downloader
         }
         public void update()
         {
-            string ver = "1.3.1";
-            WebClient wb = new WebClient();
-            Stream webdata = wb.OpenRead("http://96.45.180.29/Update/MusicDownloader.txt");
-            StreamReader sr = new StreamReader(webdata);
-            string data = sr.ReadToEnd();
-            if (ver != data)
+            try
             {
-                if (MessageBox.Show("检测到新版本，是否打开更新页面？", caption: "提示：", buttons: MessageBoxButtons.YesNo) == DialogResult.Yes)
+                string ver = "1.3.2";
+                WebClient wb = new WebClient();
+                Stream webdata = wb.OpenRead("http://wqq1024028162.lofter.com/post/30925c26_1c5d90636");
+                StreamReader sr = new StreamReader(webdata);
+                string data = sr.ReadToEnd();
+                if (ver != GetMidText(data, "{", "}"))
                 {
-                    Process.Start("explorer.exe", "http://96.45.180.29/Update/MusicDownloaderUpdate.txt");
+                    if (MessageBox.Show("检测到新版本，是否打开更新页面？", caption: "提示：", buttons: MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        Process.Start("explorer.exe", "http://wqq1024028162.lofter.com/post/30925c26_1c5d90636");
+                    }
                 }
+            }
+            catch
+            {
+                //MessageBox.Show("检查更新失败", caption: "警告: ");
             }
         }
         public ArrayList GetListViewSelectedIndices()
@@ -909,13 +925,26 @@ namespace Music_Downloader
         }
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            ArrayList a = new ArrayList();
-            a = GetListViewSelectedIndices();
-            if (Searchresult != null)
+            try
             {
-                Play(Searchresult[(int)a[0]].url, (int)a[0]);
+                ArrayList a = new ArrayList();
+                a = GetListViewSelectedIndices();
+                if (Searchresult != null)
+                {
+                    Play(Searchresult[(int)a[0]].url, (int)a[0]);
+                }
+                WebClient wc = new WebClient();
+                Stream s = wc.OpenRead(Searchresult[(int)a[0]].lrcurl);
+                StreamReader sr = new StreamReader(s);
+                string lrc = sr.ReadToEnd();
+                LrcDetails lrcdd = LrcReader(lrc);
+                label9.Text = Searchresult[(int)a[0]].SongName + " - " + Searchresult[(int)a[0]].SingerName;
+                label9.Location = new Point((424 - label9.Width) / 2, label9.Location.Y);
             }
-            //MessageBox.Show(axWindowsMediaPlayer1.currentPlaylist.count.ToString());
+            catch
+            {
+
+            }
         }
         private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -928,28 +957,36 @@ namespace Music_Downloader
         }
         public void Play(string url, int n)
         {
-            //axWindowsMediaPlayer1.URL = url;
-            //axWindowsMediaPlayer1.Ctlcontrols.play();
-            PlayList p = new PlayList()
+            int ret = CheckRepeat(url);
+            if (ret != -1)
             {
-                Album = Searchresult[n].Album,
-                ID = Searchresult[n].id,
-                LrcUrl = Searchresult[n].lrcurl,
-                Url = Searchresult[n].url,
-                SongName = Searchresult[n].SongName,
-                SingerName = Searchresult[n].SingerName
-            };
-            pl.Add(p);
-            IWMPMedia media = axWindowsMediaPlayer1.newMedia(url);
-            axWindowsMediaPlayer1.currentPlaylist.appendItem(media);
-            axWindowsMediaPlayer1.Ctlcontrols.currentItem = axWindowsMediaPlayer1.currentPlaylist.Item[axWindowsMediaPlayer1.currentPlaylist.count - 1];
-            axWindowsMediaPlayer1.Ctlcontrols.play();
-            pictureBox1.Image = Properties.Resources.pause;
+                axWindowsMediaPlayer1.Ctlcontrols.currentItem = axWindowsMediaPlayer1.currentPlaylist.Item[ret];
+                axWindowsMediaPlayer1.Ctlcontrols.play();
+                pictureBox1.Image = Properties.Resources.pause;
+            }
+            else
+            {
+                PlayList p = new PlayList()
+                {
+                    Album = Searchresult[n].Album,
+                    ID = Searchresult[n].id,
+                    LrcUrl = Searchresult[n].lrcurl,
+                    Url = Searchresult[n].url,
+                    SongName = Searchresult[n].SongName,
+                    SingerName = Searchresult[n].SingerName
+                };
+                pl.Add(p);
+                IWMPMedia media = axWindowsMediaPlayer1.newMedia(url);
+                axWindowsMediaPlayer1.currentPlaylist.appendItem(media);
+                axWindowsMediaPlayer1.Ctlcontrols.currentItem = axWindowsMediaPlayer1.currentPlaylist.Item[axWindowsMediaPlayer1.currentPlaylist.count - 1];
+                axWindowsMediaPlayer1.Ctlcontrols.play();
+                pictureBox1.Image = Properties.Resources.pause;
 
-            listView2.Items.Add(Searchresult[n].SongName);
-            listView2.Items[listView2.Items.Count - 1].SubItems.Add(Searchresult[n].SingerName);
-            listView2.Items[listView2.Items.Count - 1].SubItems.Add(Searchresult[n].Album);
-            timer2.Enabled = true;
+                listView2.Items.Add(Searchresult[n].SongName);
+                listView2.Items[listView2.Items.Count - 1].SubItems.Add(Searchresult[n].SingerName);
+                listView2.Items[listView2.Items.Count - 1].SubItems.Add(Searchresult[n].Album);
+                //timer2.Enabled = true;
+            }
         }
         public void Volumechange(int num)
         {
@@ -965,14 +1002,18 @@ namespace Music_Downloader
         }
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            metroTrackBar1.Value = (int)axWindowsMediaPlayer1.Ctlcontrols.currentPosition;
-        }
-        private void Timer2_Tick(object sender, EventArgs e)
-        {
-            if (axWindowsMediaPlayer1.currentMedia.duration != 0)
+            try
             {
-                metroTrackBar1.Maximum = (int)axWindowsMediaPlayer1.currentMedia.duration;
-                timer2.Enabled = false;
+                metroTrackBar1.Value = (int)axWindowsMediaPlayer1.Ctlcontrols.currentPosition;
+                if (axWindowsMediaPlayer1.currentMedia.duration != 0)
+                {
+                    metroTrackBar1.Maximum = (int)axWindowsMediaPlayer1.currentMedia.duration + 2;
+                    //timer2.Enabled = false;
+                }
+            }
+            catch
+            {
+
             }
         }
         private void MetroTrackBar1_Scroll(object sender, ScrollEventArgs e)
@@ -1201,13 +1242,209 @@ namespace Music_Downloader
         }
         private void ToolStripMenuItem10_Click(object sender, EventArgs e)
         {
-            ArrayList a = new ArrayList();
-            a = GetListViewSelectedIndices_musiclist();
-            IWMPMedia media = axWindowsMediaPlayer1.newMedia(pl[(int)a[0]].Url);
-            axWindowsMediaPlayer1.Ctlcontrols.currentItem = axWindowsMediaPlayer1.currentPlaylist.Item[(int)a[0]];
-            axWindowsMediaPlayer1.Ctlcontrols.play();
-            pictureBox1.Image = Properties.Resources.pause;
+            try
+            {
+                ArrayList a = new ArrayList();
+                a = GetListViewSelectedIndices_musiclist();
+                IWMPMedia media = axWindowsMediaPlayer1.newMedia(pl[(int)a[0]].Url);
+                axWindowsMediaPlayer1.Ctlcontrols.currentItem = axWindowsMediaPlayer1.currentPlaylist.Item[(int)a[0]];
+                axWindowsMediaPlayer1.Ctlcontrols.play();
+                pictureBox1.Image = Properties.Resources.pause;
+                LrcDetails lrcdd = LrcReader(pl[(int)a[0]].LrcUrl);
+                label9.Text = Searchresult[(int)a[0]].SongName + " - " + Searchresult[(int)a[0]].SingerName;
+                label9.Location = new Point((424 - label9.Width) / 2, label9.Location.Y);
+            }
+            catch
+            {
+
+            }
+            //MessageBox.Show(axWindowsMediaPlayer1.currentPlaylist.count.ToString());
+        }
+        public LrcDetails LrcReader(string url)
+        {
+            WebClient wc = new WebClient();
+            Stream s = wc.OpenRead(url);
+            StreamReader sr = new StreamReader(s);
+            string lrc = sr.ReadToEnd();
+            lrcd.url = url;
+            lrcd.LrcWord = new List<LrcContent>();
+            lrc.Replace("\r\n", "");
+            string[] a = lrc.Split('[');
+            string nlrc = "";
+            for (int i = 1; i < a.Length; i++)
+            {
+                nlrc += "[" + a[i];
+            }
+            string[] c = { "\r", "\n" };
+            string[] b = nlrc.Split(new char[2] { '\r', '\n' });
+            foreach (string d in b)
+            {
+                if (d.StartsWith("[ti:"))
+                {
+                    lrcd.Title = SplitInfo(d);
+                }
+                else if (d.StartsWith("[ar:"))
+                {
+                    lrcd.Artist = SplitInfo(d);
+                }
+                else if (d.StartsWith("[al:"))
+                {
+                    lrcd.Album = SplitInfo(d);
+                }
+                else if (d.StartsWith("[by:"))
+                {
+                    lrcd.LrcBy = SplitInfo(d);
+                }
+                else if (d.StartsWith("[offset:"))
+                {
+                    lrcd.Offset = SplitInfo(d);
+                }
+                else
+                {
+                    try
+                    {
+                        Regex regexword = new Regex(@".*\](.*)");
+                        Match mcw = regexword.Match(d);
+                        string word = mcw.Groups[1].Value;
+                        Regex regextime = new Regex(@"\[([0-9.:]*)\]", RegexOptions.Compiled);
+                        MatchCollection mct = regextime.Matches(d);
+                        foreach (Match item in mct)
+                        {
+                            double time = TimeSpan.Parse("00:" + item.Groups[1].Value).TotalSeconds;
+                            LrcContent l = new LrcContent()
+                            {
+                                Time = time,
+                                Ci = word
+                            };
+                            lrcd.LrcWord.Add(l);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        continue;
+                    }
+                }
+            }
+            return lrcd;
+        }
+        static string SplitInfo(string line)
+        {
+            return line.Substring(line.IndexOf(":") + 1).TrimEnd(']');
         }
 
+        private void Timer3_Tick(object sender, EventArgs e)
+        {
+            if (axWindowsMediaPlayer1.playState == WMPPlayState.wmppsPlaying)
+            {
+                for (int i = 0; i < lrcd.LrcWord.Count; i++)
+                {
+                    try
+                    {
+                        if (((int)lrcd.LrcWord[i].Time - 1) <= metroTrackBar1.Value && metroTrackBar1.Value <= ((int)lrcd.LrcWord[i + 1].Time - 1))
+                        {
+                            label8.Text = lrcd.LrcWord[i].Ci;
+                            i++;
+                            label8.Location = new Point((424 - label8.Width) / 2, label8.Location.Y);
+                        }
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                    if (i > lrcd.LrcWord.Count)
+                    {
+                        timer3.Enabled = false;
+                    }
+                }
+            }
+            if (axWindowsMediaPlayer1.playState == WMPPlayState.wmppsMediaEnded)
+            {
+                label8.Text = "当前无音乐播放";
+                label8.Location = new Point((424 - label8.Width) / 2, label8.Location.Y);
+                label9.Text = "歌曲名";
+            }
+            if (axWindowsMediaPlayer1.playState == WMPPlayState.wmppsBuffering)
+            {
+                for (int i = 0; i < listView2.Items.Count; i++)
+                {
+                    if (axWindowsMediaPlayer1.currentMedia.sourceURL == pl[i].Url)
+                    {
+                        //label8.Text = "加载中";
+                        label8.Location = new Point((424 - label8.Width) / 2, label8.Location.Y);
+                        label9.Text = pl[i].SongName + " - " + pl[i].SingerName;
+                        label9.Location = new Point((424 - label9.Width) / 2, label9.Location.Y);
+                    }
+                }
+            }
+        }
+        private void AxWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            if (axWindowsMediaPlayer1.playState == WMPPlayState.wmppsMediaEnded)
+            {
+                label8.Text = "当前无音乐播放";
+                label9.Text = "歌曲名";
+                label8.Location = new Point((424 - label8.Width) / 2, label8.Location.Y);
+                label9.Location = new Point((424 - label9.Width) / 2, label9.Location.Y);
+            }
+        }
+        private void MediaEndAndChangeLrc(object i)
+        {
+            try
+            {
+                LrcDetails lrcdd = LrcReader(pl[(int)i].LrcUrl);
+            }
+            catch
+            {
+
+            }
+        }
+        public int CheckRepeat(string url)
+        {
+            for (int i = 0; i < listView2.Items.Count; i++)
+            {
+                if (url == pl[i].Url)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        public void HotMusicList()
+        {
+            skinTabControl1.SelectedIndex = 0;
+            Searchresult = GetMusiclistJson("3778678", 1);
+            listView1.Items.Clear();
+            if (Searchresult != null)
+            {
+                for (int i = 0; i < Searchresult.Count; i++)
+                {
+                    listView1.Items.Add(Searchresult[i].SongName);
+                    listView1.Items[i].SubItems.Add(Searchresult[i].SingerName);
+                    listView1.Items[i].SubItems.Add(Searchresult[i].Album);
+                }
+            }
+        }
+        private void ToolStripMenuItem11_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            listView1.Items.Add("获取中...");
+            Thread a = new Thread(HotMusicList);
+            a.Start();
+        }
+
+        private void AxWindowsMediaPlayer1_MediaChange(object sender, AxWMPLib._WMPOCXEvents_MediaChangeEvent e)
+        {
+            //MessageBox.Show("MediaChange");
+            for (int i = 0; i < pl.Count; i++)
+            {
+                if (axWindowsMediaPlayer1.currentMedia.sourceURL == pl[i].Url)
+                {
+                    if (pl[i].LrcUrl != lrcd.url)
+                    {
+                        MediaEndAndChangeLrc(i);
+                    }
+                }
+            }
+        }
     }
 }
