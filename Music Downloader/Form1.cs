@@ -404,7 +404,7 @@ namespace Music_Downloader
                     }
                     listView3.Items[(int)a[i]].SubItems[2].Text = "下载完成";
                 }
-                catch(Exception e)
+                catch
                 {
                     //MessageBox.Show(e.Message, caption: "警告：");
                     listView3.Items[(int)a[i]].SubItems[2].Text = "下载错误";
@@ -1454,5 +1454,11 @@ namespace Music_Downloader
                 }
             }
         }
+        private void LinkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Form2 f2 = new Form2();
+            f2.Show();
+        }
     }
 }
+//TODO:把namechanger加进来
