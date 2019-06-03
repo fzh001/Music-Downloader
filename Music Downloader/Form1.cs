@@ -404,7 +404,7 @@ namespace Music_Downloader
                     }
                     listView3.Items[(int)a[i]].SubItems[2].Text = "下载完成";
                 }
-                catch
+                catch(Exception e)
                 {
                     //MessageBox.Show(e.Message, caption: "警告：");
                     listView3.Items[(int)a[i]].SubItems[2].Text = "下载错误";
@@ -734,8 +734,15 @@ namespace Music_Downloader
             skinTabControl1.SelectedIndex = 0;
             listView1.Items.Clear();
             listView1.Items.Add("搜索中...");
-            a = new Thread(SearchThread);
-            a.Start();
+            try
+            {
+                a = new Thread(SearchThread);
+                a.Start();
+            }
+            catch
+            {
+
+            }
         }
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -754,13 +761,13 @@ namespace Music_Downloader
             {
                 for (int i = 0; i < downloadindices.Count; i++)
                 {
-                    dl.Add(SetDownloadMedia(GetApiCode(), Searchresult[(int)downloadindices[i]].id, checkBox1.Checked, true, DownloadPathtextBox.Text, Searchresult[(int)downloadindices[i]].SongName, Searchresult[(int)downloadindices[i]].SingerName, Searchresult[(int)downloadindices[i]].url, Searchresult[(int)downloadindices[i]].lrcurl, Searchresult[(int)downloadindices[i]].Album));
+                    dl.Add(SetDownloadMedia(GetApiCode(), Searchresult[(int)downloadindices[i]].id, checkBox1.Checked, true, DownloadPathtextBox.Text, Searchresult[(int)downloadindices[i]].SongName, Searchresult[(int)downloadindices[i]].SingerName, Searchresult[(int)downloadindices[i]].url, Searchresult[(int)downloadindices[i]].lrcurl, Searchresult[(int)downloadindices[i]].Album, GetQuality()));
                 }
                 Thread t = new Thread(new ParameterizedThreadStart(Download));
                 t.Start(dl);
             }
         }
-        public DownloadList SetDownloadMedia(int Api, string ID, bool IfDownloadlrc, bool IfDownloadSong, string Savepath, string Songname, string Singername, string Url, string LrcUrl, string Album)
+        public DownloadList SetDownloadMedia(int Api, string ID, bool IfDownloadlrc, bool IfDownloadSong, string Savepath, string Songname, string Singername, string Url, string LrcUrl, string Album, string DownloadQulity)
         {
             DownloadList dd = new DownloadList
             {
@@ -773,7 +780,8 @@ namespace Music_Downloader
                 Singername = Singername,
                 Url = Url,
                 LrcUrl = LrcUrl,
-                Album = Album
+                Album = Album,
+                DownloadQuality = DownloadQulity
             };
             return dd;
         }
@@ -785,7 +793,7 @@ namespace Music_Downloader
             {
                 for (int i = 0; i < downloadindices.Count; i++)
                 {
-                    dl.Add(SetDownloadMedia(GetApiCode(), Searchresult[(int)downloadindices[i]].id, checkBox1.Checked, true, DownloadPathtextBox.Text, Searchresult[(int)downloadindices[i]].SongName, Searchresult[(int)downloadindices[i]].SingerName, Searchresult[(int)downloadindices[i]].url, Searchresult[(int)downloadindices[i]].lrcurl, Searchresult[(int)downloadindices[i]].Album));
+                    dl.Add(SetDownloadMedia(GetApiCode(), Searchresult[(int)downloadindices[i]].id, checkBox1.Checked, true, DownloadPathtextBox.Text, Searchresult[(int)downloadindices[i]].SongName, Searchresult[(int)downloadindices[i]].SingerName, Searchresult[(int)downloadindices[i]].url, Searchresult[(int)downloadindices[i]].lrcurl, Searchresult[(int)downloadindices[i]].Album, GetQuality()));
                 }
                 Thread t = new Thread(new ParameterizedThreadStart(Download));
                 t.Start(dl);
@@ -808,7 +816,7 @@ namespace Music_Downloader
             {
                 for (int i = 0; i < downloadindices.Count; i++)
                 {
-                    dl.Add(SetDownloadMedia(GetApiCode(), Searchresult[(int)downloadindices[i]].id, true, false, DownloadPathtextBox.Text, Searchresult[(int)downloadindices[i]].SongName, Searchresult[(int)downloadindices[i]].SingerName, Searchresult[(int)downloadindices[i]].url, Searchresult[(int)downloadindices[i]].lrcurl, ""));
+                    dl.Add(SetDownloadMedia(GetApiCode(), Searchresult[(int)downloadindices[i]].id, true, false, DownloadPathtextBox.Text, Searchresult[(int)downloadindices[i]].SongName, Searchresult[(int)downloadindices[i]].SingerName, Searchresult[(int)downloadindices[i]].url, Searchresult[(int)downloadindices[i]].lrcurl, Searchresult[(int)downloadindices[i]].Album, GetQuality()));
                 }
                 Thread t = new Thread(new ParameterizedThreadStart(Download));
                 t.Start(dl);
@@ -822,7 +830,7 @@ namespace Music_Downloader
             {
                 for (int i = 0; i < downloadindices.Count; i++)
                 {
-                    dl.Add(SetDownloadMedia(GetApiCode(), Searchresult[(int)downloadindices[i]].id, true, false, DownloadPathtextBox.Text, Searchresult[(int)downloadindices[i]].SongName, Searchresult[(int)downloadindices[i]].SingerName, Searchresult[(int)downloadindices[i]].url, Searchresult[(int)downloadindices[i]].lrcurl, Searchresult[(int)downloadindices[i]].Album));
+                    dl.Add(SetDownloadMedia(GetApiCode(), Searchresult[(int)downloadindices[i]].id, true, false, DownloadPathtextBox.Text, Searchresult[(int)downloadindices[i]].SongName, Searchresult[(int)downloadindices[i]].SingerName, Searchresult[(int)downloadindices[i]].url, Searchresult[(int)downloadindices[i]].lrcurl, Searchresult[(int)downloadindices[i]].Album, GetQuality()));
                 }
                 Thread t = new Thread(new ParameterizedThreadStart(Download));
                 t.Start(dl);
@@ -1109,7 +1117,7 @@ namespace Music_Downloader
             }
             for (int i = 0; i < downloadindices.Count; i++)
             {
-                dl.Add(SetDownloadMedia(GetApiCode(), pl[i].ID, checkBox1.Checked, true, DownloadPathtextBox.Text, pl[i].SongName, pl[i].SingerName, pl[i].Url, pl[i].LrcUrl, ""));
+                dl.Add(SetDownloadMedia(GetApiCode(), pl[i].ID, checkBox1.Checked, true, DownloadPathtextBox.Text, pl[i].SongName, pl[i].SingerName, pl[i].Url, pl[i].LrcUrl, pl[i].Album, GetQuality()));
             }
             Thread t = new Thread(new ParameterizedThreadStart(Download));
             t.Start(dl);
@@ -1120,7 +1128,7 @@ namespace Music_Downloader
             downloadindices = GetListViewSelectedIndices_musiclist();
             for (int i = 0; i < downloadindices.Count; i++)
             {
-                dl.Add(SetDownloadMedia(GetApiCode(), pl[(int)downloadindices[i]].ID, checkBox1.Checked, true, DownloadPathtextBox.Text, pl[(int)downloadindices[i]].SongName, pl[(int)downloadindices[i]].SingerName, pl[(int)downloadindices[i]].Url, pl[(int)downloadindices[i]].LrcUrl, ""));
+                dl.Add(SetDownloadMedia(GetApiCode(), pl[(int)downloadindices[i]].ID, checkBox1.Checked, true, DownloadPathtextBox.Text, pl[(int)downloadindices[i]].SongName, pl[(int)downloadindices[i]].SingerName, pl[(int)downloadindices[i]].Url, pl[(int)downloadindices[i]].LrcUrl, pl[(int)downloadindices[i]].Album, GetQuality()));
             }
             Thread t = new Thread(new ParameterizedThreadStart(Download));
             t.Start(dl);
@@ -1140,7 +1148,7 @@ namespace Music_Downloader
             }
             for (int i = 0; i < downloadindices.Count; i++)
             {
-                dl.Add(SetDownloadMedia(GetApiCode(), pl[(int)downloadindices[i]].ID, true, false, DownloadPathtextBox.Text, pl[(int)downloadindices[i]].SongName, pl[(int)downloadindices[i]].SingerName, pl[(int)downloadindices[i]].Url, pl[(int)downloadindices[i]].LrcUrl, pl[(int)downloadindices[i]].Album));
+                dl.Add(SetDownloadMedia(GetApiCode(), pl[(int)downloadindices[i]].ID, true, false, DownloadPathtextBox.Text, pl[(int)downloadindices[i]].SongName, pl[(int)downloadindices[i]].SingerName, pl[(int)downloadindices[i]].Url, pl[(int)downloadindices[i]].LrcUrl, pl[(int)downloadindices[i]].Album, GetQuality()));
             }
             Thread t = new Thread(new ParameterizedThreadStart(Download));
             t.Start(dl);
@@ -1151,7 +1159,7 @@ namespace Music_Downloader
             downloadindices = GetListViewSelectedIndices_musiclist();
             for (int i = 0; i < downloadindices.Count; i++)
             {
-                dl.Add(SetDownloadMedia(GetApiCode(), pl[(int)downloadindices[i]].ID, true, false, DownloadPathtextBox.Text, pl[(int)downloadindices[i]].SongName, pl[(int)downloadindices[i]].SingerName, pl[(int)downloadindices[i]].Url, pl[(int)downloadindices[i]].LrcUrl, pl[(int)downloadindices[i]].Album));
+                dl.Add(SetDownloadMedia(GetApiCode(), pl[(int)downloadindices[i]].ID, true, false, DownloadPathtextBox.Text, pl[(int)downloadindices[i]].SongName, pl[(int)downloadindices[i]].SingerName, pl[(int)downloadindices[i]].Url, pl[(int)downloadindices[i]].LrcUrl, pl[(int)downloadindices[i]].Album, GetQuality()));
             }
             Thread t = new Thread(new ParameterizedThreadStart(Download));
             t.Start(dl);
@@ -1319,7 +1327,7 @@ namespace Music_Downloader
                             lrcd.LrcWord.Add(l);
                         }
                     }
-                    catch (Exception e)
+                    catch
                     {
                         continue;
                     }
