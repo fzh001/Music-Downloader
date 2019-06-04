@@ -81,11 +81,42 @@ namespace Music_Downloader
             }
             if (musicapicode == 2)
             {
-                url = "https://v1.itooi.cn/kugou/songList?id=" + id + "&pageSize=100&page=0&format=1";
+                url = "https://v1.itooi.cn/kugou/songList?id=" + id + "&pageSize=100&page=0";
+                if (id.IndexOf("https://www.kugou.com") != -1)
+                {
+                    url = "https://v1.itooi.cn/kugou/songList?id=" + GetMidText(id, "/single/", ".html") + "&pageSize=100&page=0";
+                }
+                try
+                {
+                    stream = wc.OpenRead(url);
+                    sr = new StreamReader(stream);
+                    string ss = sr.ReadToEnd();
+                    KugouMusicList.KugouMusicList json = JsonConvert.DeserializeObject<KugouMusicList.KugouMusicList>(ss);
+                    List<SearchResult> re = new List<SearchResult>();
+                    for (int i = 0; i < json.data.info.Count; i++)
+                    {
+                        string[] n = json.data.info[i].filename.Replace(" ", "").Split('-');
+                        SearchResult s = new SearchResult
+                        {
+                            id = json.data.info[i].hash,
+                            Album = json.data.info[i].remark,
+                            lrcurl = "https://v1.itooi.cn/netease/lrc?id=" + json.data.info[i].hash,
+                            url = "https://v1.itooi.cn/netease/url?id=" + json.data.info[i].hash,
+                            SongName = n[1],
+                            SingerName = n[0]
+                        };
+                        re.Add(s);
+                    }
+                    return re;
+                }
+                catch(Exception e)
+                {
+                    return null;
+                }
             }
             if (musicapicode == 3)
             {
-                if (id.IndexOf("http://url.cn/") != -1)
+                if (id.IndexOf("http://url.cn/") != -1 || id.IndexOf("https://c.y.qq.com/") != -1)
                 {
                     string qqid = GetRealUrl(id);
                     url = "https://v1.itooi.cn/tencent/songList?id=" + qqid.Substring(qqid.IndexOf("id=") + 3) + "&pageSize=100&page=0";
@@ -123,7 +154,7 @@ namespace Music_Downloader
                         }
                         SearchResult s = new SearchResult
                         {
-                            id = json.data[0].songlist[i].id.ToString(),
+                            id = json.data[0].songlist[i].mid,
                             Album = json.data[0].songlist[i].album.name,
                             lrcurl = "https://v1.itooi.cn/tencent/lrc?id=" + json.data[0].songlist[i].id.ToString(),
                             url = "https://v1.itooi.cn/tencent/url?id=" + json.data[0].songlist[i].id.ToString(),
@@ -312,11 +343,6 @@ namespace Music_Downloader
         {
             listView1.Items.Clear();
             listView1.Items.Add("搜索中...");
-            if (GetApiCode() == 2)
-            {
-                MessageBox.Show("暂不支持获取该音源歌单", caption: "提示：");
-                return;
-            }
             skinTabControl1.SelectedIndex = 0;
             a = new Thread(new ParameterizedThreadStart(GetMusicListThread));
             a.Start(IDtextBox.Text);
@@ -404,7 +430,7 @@ namespace Music_Downloader
                     }
                     listView3.Items[(int)a[i]].SubItems[2].Text = "下载完成";
                 }
-                catch
+                catch (Exception e)
                 {
                     //MessageBox.Show(e.Message, caption: "警告：");
                     listView3.Items[(int)a[i]].SubItems[2].Text = "下载错误";
@@ -1461,4 +1487,3 @@ namespace Music_Downloader
         }
     }
 }
-//TODO:把namechanger加进来
