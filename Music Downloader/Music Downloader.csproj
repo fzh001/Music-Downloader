@@ -83,6 +83,9 @@
     <Reference Include="CSkin">
       <HintPath>..\..\资源\CSkin 4.0\CSkin.dll</HintPath>
     </Reference>
+    <Reference Include="ID3">
+      <HintPath>..\..\ID3Class\ID3Class\bin\Debug\ID3.dll</HintPath>
+    </Reference>
     <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
     </Reference>
@@ -180,7 +183,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ico.ico" />
-    <Content Include="未标题.ico" />
     <None Include="Resources\suiji.png" />
     <None Include="Resources\shunxu.png" />
     <None Include="Resources\Newtonsoft.Json.dll" />

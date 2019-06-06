@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ID3;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -373,13 +374,14 @@ namespace Music_Downloader
             string downloadpath = "";
             List<DownloadList> dl = (List<DownloadList>)o;
             int listviewindicesnum = listView3.Items.Count;
-            ArrayList a = new ArrayList();
+            //ArrayList a = new ArrayList();
             for (int i = 0; i < dl.Count; i++)
             {
-                a.Add(listView3.Items.Count);
+                //a.Add(listView3.Items.Count);
                 listView3.Items.Add(dl[i].Songname);
                 listView3.Items[listviewindicesnum + i].SubItems.Add(dl[i].Singername);
                 listView3.Items[listviewindicesnum + i].SubItems.Add("准备下载");
+                dl[i].index = listView3.Items.Count - 1;
             }
             for (int i = 0; i < dl.Count; i++)
             {
@@ -413,7 +415,7 @@ namespace Music_Downloader
                 {
                     if (dl[i].IfDownloadSong)
                     {
-                        listView3.Items[(int)a[i]].SubItems[2].Text = "下载歌曲中";
+                        listView3.Items[dl[i].index].SubItems[2].Text = "下载歌曲中";
                         if (!File.Exists(downloadpath + "\\" + songname + " - " + singername + ".mp3"))
                         {
                             wb.DownloadFile(url, downloadpath + "\\" + songname + " - " + singername + ".mp3");
@@ -430,12 +432,13 @@ namespace Music_Downloader
                             File.WriteAllText(downloadpath + "\\" + songname + " - " + singername + ".lrc", sr.ReadToEnd(), Encoding.Default);
                         }
                     }
-                    listView3.Items[(int)a[i]].SubItems[2].Text = "下载完成";
+                    AddMusicDetails(downloadpath + "\\" + songname + " - " + singername + ".mp3", dl[i].Songname, dl[i].Singername, dl[i].Album);
+                    listView3.Items[dl[i].index].SubItems[2].Text = "下载完成";
                 }
                 catch (Exception e)
                 {
                     //MessageBox.Show(e.Message, caption: "警告：");
-                    listView3.Items[(int)a[i]].SubItems[2].Text = "下载错误";
+                    listView3.Items[dl[i].index].SubItems[2].Text = "下载错误";
                 }
             }
         }
@@ -771,13 +774,11 @@ namespace Music_Downloader
             }
             catch
             {
-
             }
         }
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             downloadindices.Clear();
-
             if (listView1.Items.Count == 0)
             {
                 MessageBox.Show("未获取歌曲", caption: "警告：");
@@ -972,17 +973,12 @@ namespace Music_Downloader
                 {
                     Play(Searchresult[(int)a[0]].url, (int)a[0]);
                 }
-                WebClient wc = new WebClient();
-                Stream s = wc.OpenRead(Searchresult[(int)a[0]].lrcurl);
-                StreamReader sr = new StreamReader(s);
-                string lrc = sr.ReadToEnd();
-                LrcDetails lrcdd = LrcReader(lrc);
+                LrcDetails lrcdd = LrcReader(Searchresult[(int)a[0]].lrcurl);
                 label9.Text = Searchresult[(int)a[0]].SongName + " - " + Searchresult[(int)a[0]].SingerName;
                 label9.Location = new Point((424 - label9.Width) / 2, label9.Location.Y);
             }
             catch
             {
-
             }
         }
         private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -1020,7 +1016,6 @@ namespace Music_Downloader
                 axWindowsMediaPlayer1.Ctlcontrols.currentItem = axWindowsMediaPlayer1.currentPlaylist.Item[axWindowsMediaPlayer1.currentPlaylist.count - 1];
                 axWindowsMediaPlayer1.Ctlcontrols.play();
                 pictureBox1.Image = Properties.Resources.pause;
-
                 listView2.Items.Add(Searchresult[n].SongName);
                 listView2.Items[listView2.Items.Count - 1].SubItems.Add(Searchresult[n].SingerName);
                 listView2.Items[listView2.Items.Count - 1].SubItems.Add(Searchresult[n].Album);
@@ -1052,7 +1047,6 @@ namespace Music_Downloader
             }
             catch
             {
-
             }
         }
         private void MetroTrackBar1_Scroll(object sender, ScrollEventArgs e)
@@ -1132,6 +1126,7 @@ namespace Music_Downloader
             public string LrcUrl { set; get; }
             public string DownloadQuality { set; get; }
             public string Album { get; set; }
+            public int index { set; get; }
         }
         private void ToolStripMenuItem5_Click(object sender, EventArgs e)
         {
@@ -1295,7 +1290,6 @@ namespace Music_Downloader
             }
             catch
             {
-
             }
             //MessageBox.Show(axWindowsMediaPlayer1.currentPlaylist.count.ToString());
         }
@@ -1370,30 +1364,35 @@ namespace Music_Downloader
         {
             return line.Substring(line.IndexOf(":") + 1).TrimEnd(']');
         }
-
         private void Timer3_Tick(object sender, EventArgs e)
         {
             if (axWindowsMediaPlayer1.playState == WMPPlayState.wmppsPlaying)
             {
-                for (int i = 0; i < lrcd.LrcWord.Count; i++)
+                try
                 {
-                    try
+                    for (int i = 0; i < lrcd.LrcWord.Count; i++)
                     {
-                        if (((int)lrcd.LrcWord[i].Time - 1) <= metroTrackBar1.Value && metroTrackBar1.Value <= ((int)lrcd.LrcWord[i + 1].Time - 1))
+                        try
                         {
-                            label8.Text = lrcd.LrcWord[i].Ci;
-                            i++;
-                            label8.Location = new Point((424 - label8.Width) / 2, label8.Location.Y);
+                            if (((int)lrcd.LrcWord[i].Time - 1) <= metroTrackBar1.Value && metroTrackBar1.Value <= ((int)lrcd.LrcWord[i + 1].Time - 1))
+                            {
+                                label8.Text = lrcd.LrcWord[i].Ci;
+                                i++;
+                                label8.Location = new Point((424 - label8.Width) / 2, label8.Location.Y);
+                            }
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                        if (i > lrcd.LrcWord.Count)
+                        {
+                            timer3.Enabled = false;
                         }
                     }
-                    catch
-                    {
-                        continue;
-                    }
-                    if (i > lrcd.LrcWord.Count)
-                    {
-                        timer3.Enabled = false;
-                    }
+                }
+                catch
+                {
                 }
             }
             if (axWindowsMediaPlayer1.playState == WMPPlayState.wmppsMediaEnded)
@@ -1434,7 +1433,6 @@ namespace Music_Downloader
             }
             catch
             {
-
             }
         }
         public int CheckRepeat(string url)
@@ -1470,7 +1468,6 @@ namespace Music_Downloader
             Thread a = new Thread(HotMusicList);
             a.Start();
         }
-
         private void AxWindowsMediaPlayer1_MediaChange(object sender, AxWMPLib._WMPOCXEvents_MediaChangeEvent e)
         {
             //MessageBox.Show("MediaChange");
@@ -1489,6 +1486,14 @@ namespace Music_Downloader
         {
             Form2 f2 = new Form2();
             f2.Show();
+        }
+        private void AddMusicDetails(string path, string title, string artists, string ablum)
+        {
+            ID3Info info = new ID3Info(path, true);
+            info.ID3v2Info.SetTextFrame("TIT2", title);
+            info.ID3v2Info.SetTextFrame("TPE1", artists);
+            info.ID3v2Info.SetTextFrame("TALB", ablum);
+            info.Save();
         }
     }
 }
