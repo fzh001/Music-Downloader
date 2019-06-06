@@ -109,7 +109,7 @@ namespace Music_Downloader
                     }
                     return re;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     return null;
                 }
@@ -338,9 +338,11 @@ namespace Music_Downloader
                 listView1.Items[i].SubItems.Add(Searchresult[i].Album);
             }
             Musicnumlabel.Text = "歌曲总数：" + listView1.Items.Count;
+            metroButton2.Enabled = true;
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            metroButton2.Enabled = false;
             listView1.Items.Clear();
             listView1.Items.Add("搜索中...");
             skinTabControl1.SelectedIndex = 0;
@@ -754,6 +756,7 @@ namespace Music_Downloader
                 listView1.Items[i].SubItems.Add(Searchresult[i].Album);
             }
             Musicnumlabel.Text = "歌曲总数：" + listView1.Items.Count;
+            metroButton1.Enabled = true;
         }
         private void Searchbutton_Click(object sender, EventArgs e)
         {
@@ -762,6 +765,7 @@ namespace Music_Downloader
             listView1.Items.Add("搜索中...");
             try
             {
+                metroButton1.Enabled = false;
                 a = new Thread(SearchThread);
                 a.Start();
             }
@@ -773,7 +777,7 @@ namespace Music_Downloader
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             downloadindices.Clear();
-            List<DownloadList> dl = new List<DownloadList>();
+
             if (listView1.Items.Count == 0)
             {
                 MessageBox.Show("未获取歌曲", caption: "警告：");
@@ -785,6 +789,7 @@ namespace Music_Downloader
             }
             if (Searchresult != null)
             {
+                List<DownloadList> dl = new List<DownloadList>();
                 for (int i = 0; i < downloadindices.Count; i++)
                 {
                     dl.Add(SetDownloadMedia(GetApiCode(), Searchresult[(int)downloadindices[i]].id, checkBox1.Checked, true, DownloadPathtextBox.Text, Searchresult[(int)downloadindices[i]].SongName, Searchresult[(int)downloadindices[i]].SingerName, Searchresult[(int)downloadindices[i]].url, Searchresult[(int)downloadindices[i]].lrcurl, Searchresult[(int)downloadindices[i]].Album, GetQuality()));
