@@ -5,11 +5,11 @@
 * 列表右键功能菜单
 * 列表可配合Ctrl和Shift键实现多选
 * 歌单ID示例
-   * 网易云音乐：https://music.163.com/playlist?id=**3778678**
-   * QQ音乐：https://y.qq.com/n/yqq/playsquare/**7013848675**.html
-   * 酷狗音乐：https://www.kugou.com/yy/special/single/**709458**.html
-   * 酷我音乐：http://www.kuwo.cn/playlist_detail/**2780723818**
-   * 千千音乐：http://music.taihe.com/songlist/**566242123**
+   * 网易云音乐：https://music.163.com/playlist?id=3778678
+   * QQ音乐：https://y.qq.com/n/yqq/playsquare/7013848675.html
+   * 酷狗音乐：https://www.kugou.com/yy/special/single/709458.html
+   * 酷我音乐：http://www.kuwo.cn/playlist_detail/2780723818
+   * 千千音乐：http://music.taihe.com/songlist/566242123
 ## 运行截图
 ![运行截图1][1]
 ![运行截图2][2]
