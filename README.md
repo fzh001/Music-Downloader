@@ -17,6 +17,14 @@
 <img src="https://github.com/NiTian1207/Music-Downloader/blob/master/MusicPlayer%20Material/IMG_0019.JPG" width="300" height="450"><img src="https://github.com/NiTian1207/Music-Downloader/blob/master/MusicPlayer%20Material/IMG_0020.JPG" width="300" height="450">
 
 ## 更新日志: 
+   * 1.3.3(2019年6月9日)：
+      * 修复 下载音质问题
+      * 修复 QQ音乐下载错误
+      * 修复 播放音乐导致程序奔溃的问题
+      * 增加 名称换位与分类 工具
+      * 增加 下载音乐后修改音乐详细信息 功能
+      * 更换 图标
+      <br/>
    * 1.3.2(2019年6月2日):
       * 紧急更新（解决程序闪退）
       * 获取热门歌单
