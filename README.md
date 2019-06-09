@@ -11,7 +11,7 @@
    * 酷我音乐：http://www.kuwo.cn/playlist_detail/2780723818
    * 千千音乐：http://music.taihe.com/songlist/566242123
 ## 运行截图
-<img src="https://github.com/NiTian1207/Music-Downloader/blob/master/MusicPlayer%20Material/%E6%88%AA%E5%9B%BE1.png" height=50% width=50%>
+![运行截图1][1]
 ![运行截图2][2]
 ## 捐助
 ![捐助1][3]
