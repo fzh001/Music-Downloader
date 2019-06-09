@@ -891,11 +891,10 @@ namespace Music_Downloader
             {
                 string ver = "1.3.3";
                 WebClient wb = new WebClient();
-                Stream webdata = wb.OpenRead("https://github.com/NiTian1207/Music-Downloader/blob/master/Version");
+                Stream webdata = wb.OpenRead("https://raw.githubusercontent.com/NiTian1207/Music-Downloader/master/Version");
                 StreamReader sr = new StreamReader(webdata);
                 string data = sr.ReadToEnd();
-                string latest = GetMidText(data, "<td id=\"LC1\" class=\"blob - code blob - code - inner js - file - line\">", "</td>");
-                if (ver != latest)
+                if (ver != data && ver + "\n" != data)
                 {
                     if (MessageBox.Show("检测到新版本，是否打开更新页面？", caption: "提示：", buttons: MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
