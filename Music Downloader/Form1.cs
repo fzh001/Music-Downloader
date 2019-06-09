@@ -349,6 +349,7 @@ namespace Music_Downloader
             skinTabControl1.SelectedIndex = 0;
             a = new Thread(new ParameterizedThreadStart(GetMusicListThread));
             a.Start(IDtextBox.Text);
+            metroButton2.Enabled = true;
         }
         public string NameCheck(string name)
         {
@@ -775,6 +776,7 @@ namespace Music_Downloader
             catch
             {
             }
+            metroButton1.Enabled = true;
         }
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -887,12 +889,13 @@ namespace Music_Downloader
         {
             try
             {
-                string ver = "1.3.2";
+                string ver = "1.3.3";
                 WebClient wb = new WebClient();
-                Stream webdata = wb.OpenRead("http://wqq1024028162.lofter.com/post/30925c26_1c5d90636");
+                Stream webdata = wb.OpenRead("https://github.com/NiTian1207/Music-Downloader/blob/master/Version");
                 StreamReader sr = new StreamReader(webdata);
                 string data = sr.ReadToEnd();
-                if (ver != GetMidText(data, "{", "}"))
+                string latest = GetMidText(data, "<td id=\"LC1\" class=\"blob - code blob - code - inner js - file - line\">", "</td>");
+                if (ver != latest)
                 {
                     if (MessageBox.Show("检测到新版本，是否打开更新页面？", caption: "提示：", buttons: MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
