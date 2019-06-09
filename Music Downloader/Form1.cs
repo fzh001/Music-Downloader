@@ -898,7 +898,7 @@ namespace Music_Downloader
                 {
                     if (MessageBox.Show("检测到新版本，是否打开更新页面？", caption: "提示：", buttons: MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        Process.Start("explorer.exe", "http://wqq1024028162.lofter.com/post/30925c26_1c5d90636");
+                        Process.Start("explorer.exe", "https://github.com/NiTian1207/Music-Downloader");
                     }
                 }
             }
