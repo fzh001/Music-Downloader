@@ -1,4 +1,18 @@
 # Music-Downloader
+一款简单的音乐下载（播放）器
+功能：歌曲搜索、歌单读取、在线播放、歌曲下载（包括付费音乐）
+## 使用技巧 
+* 列表右键功能菜单
+* 列表可配合Ctrl和Shift键实现多选
+* 歌单ID示例
+   * 网易云音乐：https://music.163.com/playlist?id=**3778678**
+   * QQ音乐：https://y.qq.com/n/yqq/playsquare/**7013848675**.html
+   * 酷狗音乐：https://www.kugou.com/yy/special/single/**709458**.html
+   * 酷我音乐：http://www.kuwo.cn/playlist_detail/**2780723818**
+   * 千千音乐：http://music.taihe.com/songlist/**566242123**
+## 运行截图
+![运行截图1][1]
+![运行截图2][2]
 ## 更新日志: 
    * 1.3.2(2019年6月2日):
       * 紧急更新（解决程序闪退）
@@ -40,3 +54,7 @@
       * 更改歌词编码为ANSI
       * 在标题上加了个版本号 1.1.0
       * 取消每次下载错误都弹出消息框,更改为全部下载完成后一起显示
+
+
+  [1]: https://github.com/NiTian1207/Music-Downloader/blob/master/MusicPlayer%20Material/%E6%88%AA%E5%9B%BE1.png
+  [2]: https://github.com/NiTian1207/Music-Downloader/blob/master/MusicPlayer%20Material/%E6%88%AA%E5%9B%BE2.png
