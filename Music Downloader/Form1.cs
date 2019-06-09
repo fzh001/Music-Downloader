@@ -24,12 +24,12 @@ namespace Music_Downloader
         //全局变量
         //Music_Downloader.Root1 musiclist;
         //SearchRoot Searchresult;
-        List<SearchResult> Searchresult;
-        ArrayList downloadindices = new ArrayList();
-        Thread a;
-        List<PlayList> pl = new List<PlayList>();
-        string playmode = "shunxu";
-        LrcDetails lrcd = new LrcDetails();
+        private List<SearchResult> Searchresult;
+        private ArrayList downloadindices = new ArrayList();
+        private Thread a;
+        private List<PlayList> pl = new List<PlayList>();
+        private string playmode = "shunxu";
+        private LrcDetails lrcd = new LrcDetails();
         public List<SearchResult> GetMusiclistJson(string id, int musicapicode)
         {
             string url = null;
@@ -110,7 +110,7 @@ namespace Music_Downloader
                     }
                     return re;
                 }
-                catch (Exception e)
+                catch
                 {
                     return null;
                 }
@@ -435,7 +435,7 @@ namespace Music_Downloader
                     AddMusicDetails(downloadpath + "\\" + songname + " - " + singername + ".mp3", dl[i].Songname, dl[i].Singername, dl[i].Album);
                     listView3.Items[dl[i].index].SubItems[2].Text = "下载完成";
                 }
-                catch (Exception e)
+                catch
                 {
                     //MessageBox.Show(e.Message, caption: "警告：");
                     listView3.Items[dl[i].index].SubItems[2].Text = "下载错误";
@@ -1360,7 +1360,8 @@ namespace Music_Downloader
             }
             return lrcd;
         }
-        static string SplitInfo(string line)
+
+        private static string SplitInfo(string line)
         {
             return line.Substring(line.IndexOf(":") + 1).TrimEnd(']');
         }
@@ -1496,4 +1497,4 @@ namespace Music_Downloader
             info.Save();
         }
     }
-}//
+}
